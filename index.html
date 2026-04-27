@@ -9,288 +9,390 @@
     <meta name="apple-mobile-web-app-title" content="Daily Wins">
     <meta name="mobile-web-app-capable" content="yes">
     <title>Daily Wins</title>
+    
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L72 38' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Cpath d='M30 50 L45 65 L72 38' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    
     <link rel="manifest" href='data:application/manifest+json,{"name":"Daily Wins","short_name":"Daily Wins","start_url":".","display":"standalone","background_color":"%231a1625","theme_color":"%231a1625","orientation":"portrait"}'>
-<style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body {
-    margin: 0; padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
-    background: #1a1625;
-    color: #f5f5f5;
-    min-height: 100vh;
-    overscroll-behavior: none;
-}
-body {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-}
-button { font-family: inherit; }
-input, textarea { font-family: inherit; }
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
 
-.app {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1a1625 0%, #2d1b3d 50%, #1e1a2e 100%);
-    padding-bottom: 40px;
-}
-
-.header {
-    padding: 24px 20px;
-    background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-.header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-h1 { font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-.date { font-size: 13px; color: #a78bfa; margin: 4px 0 0 0; }
-.trophy {
-    background: rgba(139, 92, 246, 0.15); border-radius: 12px; padding: 8px 14px;
-    display: flex; align-items: center; gap: 6px; border: 1px solid rgba(139, 92, 246, 0.3);
-    font-weight: 700; font-size: 14px;
-}
-.quote { font-size: 14px; color: #c4b5fd; font-style: italic; margin: 0; }
-
-.tabs {
-    display: flex; gap: 6px; padding: 14px 20px; background: rgba(0,0,0,0.2); overflow-x: auto;
-    scrollbar-width: none;
-}
-.tabs::-webkit-scrollbar { display: none; }
-.tab {
-    flex: 1; min-width: 60px; padding: 10px; border-radius: 10px; border: none;
-    background: rgba(255,255,255,0.05); color: #9ca3af;
-    font-weight: 600; font-size: 11px; cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;
-}
-.tab.active { background: rgba(139, 92, 246, 0.3); color: #fff; }
-.tab svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-.content { padding: 20px; }
-
-.progress-card {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%);
-    border-radius: 20px; padding: 24px; margin-bottom: 20px;
-    border: 1px solid rgba(255,255,255,0.08); text-align: center;
-}
-.progress-num {
-    font-size: 48px; font-weight: 800; line-height: 1;
-    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-.progress-num span { font-size: 24px; color: #6b7280; -webkit-text-fill-color: #6b7280; }
-.progress-label { font-size: 13px; color: #a78bfa; margin: 8px 0 0 0; font-weight: 500; }
-.progress-bar-bg { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 16px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%); border-radius: 3px; transition: width 0.5s ease; }
-
-.category-list { display: flex; flex-direction: column; gap: 10px; }
-
-.category {
-    background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px;
-    border: 1px solid rgba(255,255,255,0.06); cursor: pointer;
-    display: flex; align-items: center; gap: 12px;
-    width: 100%; text-align: left; transition: all 0.2s; color: #fff; font-family: inherit;
-}
-.category.done { background: var(--cat-bg); border-color: var(--cat-border); }
-.category > svg { width: 20px; height: 20px; flex-shrink: 0; }
-
-.cat-icon {
-    width: 40px; height: 40px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--cat-icon-bg); flex-shrink: 0;
-}
-.cat-icon svg { width: 20px; height: 20px; stroke: var(--cat-color); }
-.cat-info { flex: 1; min-width: 0; }
-.cat-name { font-weight: 600; font-size: 15px; }
-.cat-goal { font-size: 12px; color: #9ca3af; margin-top: 2px; }
-.cat-streak { display: flex; align-items: center; gap: 4px; color: #f59e0b; font-size: 12px; font-weight: 600; }
-.cat-streak svg { width: 14px; height: 14px; }
-.cat-check { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.cat-check.done { background: var(--cat-color); }
-.cat-check svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 3; opacity: 0; }
-.cat-check.done svg { opacity: 1; }
-
-.complex-card {
-    background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px;
-    border: 1px solid rgba(255,255,255,0.06);
-}
-.complex-card.done { background: var(--cat-bg); border-color: var(--cat-border); }
-.complex-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-
-.timer-display { font-size: 48px; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; margin-bottom: 12px; color: var(--cat-color); }
-.timer-progress-bg { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
-.timer-progress { height: 100%; transition: width 1s linear; }
-.btn-row { display: flex; gap: 8px; }
-.btn {
-    flex: 1; padding: 12px; border-radius: 10px; border: none;
-    color: #fff; font-weight: 600; font-size: 14px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.btn-primary { background: var(--cat-color); }
-.btn-secondary { background: rgba(255,255,255,0.08); padding: 12px 16px; flex: 0 0 auto; }
-.btn-tertiary { background: var(--cat-light-bg); border: 1px solid var(--cat-border); }
-.btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
-
-.water-bottle {
-    height: 40px; background: rgba(255,255,255,0.05); border-radius: 8px;
-    margin-bottom: 12px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);
-}
-.water-fill { position: absolute; bottom: 0; left: 0; right: 0; transition: height 0.3s ease; }
-.water-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-.water-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-.water-btn { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; font-size: 13px; cursor: pointer; background: var(--cat-light-bg); color: var(--cat-color); }
-.water-btn.reset { flex: 0; padding: 10px 14px; background: rgba(255,255,255,0.05); color: #9ca3af; }
-
-.smoke-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.smoke-btn { width: 44px; height: 44px; border-radius: 12px; border: none; background: rgba(239, 68, 68, 0.2); color: #ef4444; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.smoke-btn svg { width: 18px; height: 18px; stroke: #ef4444; stroke-width: 2; fill: none; }
-.smoke-num { font-size: 32px; font-weight: 800; color: #ef4444; }
-
-.week-card, .calendar-card, .journal-card, .streaks-card {
-    background: rgba(255,255,255,0.04); border-radius: 20px; padding: 20px;
-    border: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;
-}
-.week-card h3, .calendar-card h3, .journal-card h3, .streaks-card h3 { margin: 0 0 16px 0; font-size: 16px; font-weight: 700; }
-
-.week-grid { display: flex; justify-content: space-between; gap: 6px; }
-.week-day { flex: 1; text-align: center; }
-.week-bar { height: 70px; border-radius: 8px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 6px; font-size: 11px; font-weight: 700; }
-.week-label { font-size: 11px; color: #9ca3af; }
-
-.streak-row { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 10px; margin-bottom: 4px; }
-.streak-row svg { width: 18px; height: 18px; }
-.streak-name { flex: 1; font-size: 14px; }
-.streak-num { font-weight: 700; font-size: 14px; }
-
-.cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.cal-nav button { background: rgba(255,255,255,0.05); border: none; border-radius: 8px; padding: 8px; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; }
-.cal-nav svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2; fill: none; }
-.cal-nav h3 { margin: 0; text-transform: capitalize; }
-.cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
-.cal-weekday { text-align: center; font-size: 11px; color: #9ca3af; font-weight: 600; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-.cal-day { aspect-ratio: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); color: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; background: transparent; }
-.cal-day.today { border: 2px solid #a78bfa; }
-.cal-day-count { font-size: 9px; color: #c4b5fd; margin-top: 1px; }
-.cal-legend { margin-top: 16px; display: flex; align-items: center; gap: 8px; font-size: 11px; color: #9ca3af; justify-content: center; }
-.cal-legend-box { width: 16px; height: 16px; border-radius: 4px; }
-.cal-tip { margin-top: 16px; font-size: 12px; color: #9ca3af; text-align: center; }
-
-textarea { width: 100%; min-height: 180px; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3); color: #fff; font-size: 14px; resize: vertical; outline: none; }
-
-/* ===== PROGRESS TAB ===== */
-.stats-card {
-    background: rgba(255,255,255,0.04); border-radius: 20px; padding: 20px;
-    border: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px;
-}
-.stats-card h3 { margin: 0 0 16px 0; font-size: 16px; font-weight: 700; }
-.stats-row { display: flex; gap: 12px; margin-bottom: 16px; }
-.stat-box {
-    flex: 1; background: rgba(255,255,255,0.05); border-radius: 14px; padding: 14px;
-    text-align: center; border: 1px solid rgba(255,255,255,0.06);
-}
-.stat-box-num { font-size: 28px; font-weight: 800; }
-.stat-box-label { font-size: 11px; color: #9ca3af; margin-top: 4px; }
-.trend-row {
-    display: flex; align-items: center; gap: 10px; padding: 12px;
-    border-radius: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.05);
-}
-.trend-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.trend-info { flex: 1; min-width: 0; }
-.trend-name { font-size: 13px; font-weight: 600; }
-.trend-detail { font-size: 11px; color: #9ca3af; margin-top: 2px; }
-.trend-badge {
-    font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 8px; white-space: nowrap;
-}
-.trend-badge.up { background: rgba(16,185,129,0.2); color: #10b981; }
-.trend-badge.down { background: rgba(239,68,68,0.2); color: #ef4444; }
-.trend-badge.same { background: rgba(156,163,175,0.2); color: #9ca3af; }
-.trend-badge.good-down { background: rgba(16,185,129,0.2); color: #10b981; }
-.trend-badge.bad-up { background: rgba(239,68,68,0.2); color: #ef4444; }
-
-.progress-timeline { margin-top: 8px; }
-.timeline-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.timeline-label { font-size: 11px; color: #9ca3af; width: 30px; text-align: right; flex-shrink: 0; }
-.timeline-track { flex: 1; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
-.timeline-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-.timeline-val { font-size: 11px; font-weight: 700; width: 24px; text-align: right; flex-shrink: 0; }
-
-.period-btn-row { display: flex; gap: 6px; margin-bottom: 16px; }
-.period-btn { flex: 1; padding: 8px; border-radius: 8px; border: none; background: rgba(255,255,255,0.05); color: #9ca3af; font-size: 12px; font-weight: 600; cursor: pointer; }
-.period-btn.active { background: rgba(139,92,246,0.3); color: #fff; }
-
-/* ===== EXPORT/IMPORT ===== */
-.settings-card {
-    background: rgba(255,255,255,0.04); border-radius: 20px; padding: 20px;
-    border: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px;
-}
-.settings-card h3 { margin: 0 0 16px 0; font-size: 16px; font-weight: 700; }
-.settings-btn {
-    width: 100%; padding: 14px; border-radius: 12px; border: none; cursor: pointer;
-    font-weight: 600; font-size: 14px; margin-bottom: 10px;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.settings-btn.export { background: rgba(139,92,246,0.2); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
-.settings-btn.import { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
-.settings-btn.danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
-.settings-info { font-size: 12px; color: #9ca3af; text-align: center; margin-top: 8px; line-height: 1.5; }
-.days-since { font-size: 13px; color: #c4b5fd; text-align: center; margin-top: 12px; padding: 12px; background: rgba(139,92,246,0.1); border-radius: 10px; }
-
-/* ===== MODALS ===== */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 100; padding: 20px; align-items: center; justify-content: center; }
-.modal-overlay.show { display: flex; }
-.modal { background: #1e1a2e; border-radius: 24px; padding: 24px; max-width: 420px; width: 100%; max-height: 80vh; overflow-y: auto; border: 1px solid rgba(139, 92, 246, 0.3); }
-.modal-bottom { background: #1e1a2e; border-radius: 24px 24px 0 0; padding: 24px; width: 100%; max-height: 85vh; overflow-y: auto; border: 1px solid rgba(236, 72, 153, 0.2); margin-top: auto; }
-.modal-overlay.bottom { align-items: flex-end; padding: 0; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-header h3 { margin: 0; font-size: 18px; font-weight: 700; }
-.modal-close { background: rgba(255,255,255,0.05); border: none; border-radius: 8px; padding: 8px; cursor: pointer; color: #fff; display: flex; align-items: center; justify-content: center; }
-.modal-close svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2; fill: none; }
-
-.math-problem { font-size: 56px; font-weight: 800; text-align: center; margin-bottom: 24px; color: #3b82f6; transition: color 0.3s; }
-.math-problem.correct { color: #10b981; }
-.math-problem.wrong { color: #ef4444; }
-.math-input { width: 100%; padding: 16px; font-size: 20px; font-weight: 700; text-align: center; border-radius: 12px; border: 2px solid rgba(59, 130, 246, 0.3); background: rgba(0,0,0,0.3); color: #fff; outline: none; margin-bottom: 16px; }
-.math-feedback { text-align: center; font-weight: 700; margin-bottom: 12px; }
-.math-feedback.correct { color: #10b981; }
-.math-feedback.wrong { color: #ef4444; }
-.math-submit { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #3b82f6; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; }
-
-.inv-item { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px; margin-bottom: 8px; }
-.inv-item.has { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
-.inv-item.missing { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
-.inv-check { width: 24px; height: 24px; border-radius: 6px; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255,255,255,0.1); }
-.inv-check.has { background: #10b981; }
-.inv-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; opacity: 0; }
-.inv-check.has svg { opacity: 1; }
-.inv-name { flex: 1; font-size: 14px; }
-.inv-name.missing { text-decoration: line-through; color: #ef4444; }
-.inv-remove { background: transparent; border: none; color: #6b7280; cursor: pointer; }
-.inv-add { display: flex; gap: 8px; margin-top: 12px; }
-.inv-add input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3); color: #fff; font-size: 14px; outline: none; }
-.inv-add button { padding: 12px 16px; border-radius: 10px; border: none; background: #ec4899; color: #fff; font-weight: 600; cursor: pointer; }
-.shopping-list { margin-top: 20px; padding: 14px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
-.shopping-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #ef4444; }
-.shopping-items { font-size: 13px; color: #fca5a5; }
-
-.day-summary { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1)); border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: center; }
-.day-summary-num { font-size: 32px; font-weight: 800; color: #a78bfa; }
-.day-summary-label { font-size: 12px; color: #c4b5fd; }
-.day-cat { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; margin-bottom: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
-.day-cat svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
-.day-cat-name { flex: 1; font-size: 13px; }
-.day-journal { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px; border: 1px solid rgba(255,255,255,0.06); }
-.day-journal-header { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: #a78bfa; }
-.day-journal-header svg { width: 14px; height: 14px; stroke: #a78bfa; fill: none; stroke-width: 2; }
-.day-journal p { margin: 0; font-size: 13px; color: #e5e7eb; white-space: pre-wrap; line-height: 1.5; }
-
-.install-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 16px; padding: 14px 16px; z-index: 200; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: center; gap: 12px; }
-.install-banner.show { display: flex; }
-.install-banner-text { flex: 1; font-size: 13px; font-weight: 600; }
-.install-banner-close { background: rgba(255,255,255,0.2); border: none; border-radius: 8px; padding: 6px; cursor: pointer; color: #fff; }
-</style>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: #1a1625; color: #f5f5f5;
+            min-height: 100vh; overscroll-behavior: none;
+        }
+        body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+        button, input, textarea { font-family: inherit; }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
+        
+        .app {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1625 0%, #2d1b3d 50%, #1e1a2e 100%);
+            padding-bottom: 40px;
+        }
+        .header {
+            padding: 24px 20px;
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        h1 { font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+        .date { font-size: 13px; color: #a78bfa; margin: 4px 0 0 0; }
+        .trophy {
+            background: rgba(139, 92, 246, 0.15); border-radius: 12px; padding: 8px 14px;
+            display: flex; align-items: center; gap: 6px; border: 1px solid rgba(139, 92, 246, 0.3);
+            font-weight: 700; font-size: 14px;
+        }
+        .quote { font-size: 14px; color: #c4b5fd; font-style: italic; margin: 0; }
+        
+        .tabs { display: flex; gap: 6px; padding: 14px 20px; background: rgba(0,0,0,0.2); overflow-x: auto; }
+        .tab {
+            flex: 1; min-width: 70px; padding: 10px; border-radius: 10px; border: none;
+            background: rgba(255,255,255,0.05); color: #9ca3af;
+            font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .tab.active { background: rgba(139, 92, 246, 0.3); color: #fff; }
+        
+        .content { padding: 20px; }
+        
+        .progress-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 20px; padding: 24px; margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.08); text-align: center;
+        }
+        .progress-num {
+            font-size: 48px; font-weight: 800; line-height: 1;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .progress-num span { font-size: 24px; color: #6b7280; -webkit-text-fill-color: #6b7280; }
+        .progress-label { font-size: 13px; color: #a78bfa; margin: 8px 0 0 0; font-weight: 500; }
+        .progress-bar-bg {
+            height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px;
+            margin-top: 16px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%; background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+            border-radius: 3px; transition: width 0.5s ease;
+        }
+        
+        .category-list { display: flex; flex-direction: column; gap: 10px; }
+        .category {
+            background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px;
+            border: 1px solid rgba(255,255,255,0.06); cursor: pointer;
+            display: flex; align-items: center; gap: 12px;
+            width: 100%; text-align: left; transition: all 0.2s;
+            color: #fff; font-family: inherit;
+        }
+        .category.done { background: var(--cat-bg); border-color: var(--cat-border); }
+        .category > svg {
+            width: 20px; height: 20px; flex-shrink: 0;
+        }
+        .cat-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--cat-icon-bg); flex-shrink: 0;
+        }
+        .cat-icon svg { width: 20px; height: 20px; stroke: var(--cat-color); }
+        .cat-info { flex: 1; min-width: 0; }
+        .cat-name { font-weight: 600; font-size: 15px; }
+        .cat-goal { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+        .cat-streak {
+            display: flex; align-items: center; gap: 4px;
+            color: #f59e0b; font-size: 12px; font-weight: 600;
+        }
+        .cat-streak svg { width: 14px; height: 14px; }
+        .cat-check {
+            width: 28px; height: 28px; border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .cat-check.done { background: var(--cat-color); }
+        .cat-check svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 3; opacity: 0; }
+        .cat-check.done svg { opacity: 1; }
+        
+        .complex-card {
+            background: rgba(255,255,255,0.04); border-radius: 16px; padding: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .complex-card.done { background: var(--cat-bg); border-color: var(--cat-border); }
+        .complex-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        
+        .timer-display {
+            font-size: 48px; font-weight: 800; text-align: center;
+            font-variant-numeric: tabular-nums; margin-bottom: 12px; color: var(--cat-color);
+        }
+        .timer-progress-bg {
+            height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
+            margin-bottom: 12px; overflow: hidden;
+        }
+        .timer-progress { height: 100%; transition: width 1s linear; }
+        .btn-row { display: flex; gap: 8px; }
+        .btn {
+            flex: 1; padding: 12px; border-radius: 10px; border: none;
+            color: #fff; font-weight: 600; font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn-primary { background: var(--cat-color); }
+        .btn-secondary { background: rgba(255,255,255,0.08); padding: 12px 16px; flex: 0 0 auto; }
+        .btn-tertiary { background: var(--cat-light-bg); border: 1px solid var(--cat-border); }
+        .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+        
+        .water-bottle {
+            height: 40px; background: rgba(255,255,255,0.05); border-radius: 8px;
+            margin-bottom: 12px; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .water-fill { position: absolute; bottom: 0; left: 0; right: 0; transition: height 0.3s ease; }
+        .water-text {
+            position: absolute; inset: 0; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .water-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .water-btn {
+            flex: 1; padding: 10px; border-radius: 8px; border: none;
+            font-weight: 600; font-size: 13px; cursor: pointer;
+            background: var(--cat-light-bg); color: var(--cat-color);
+        }
+        .water-btn.reset { flex: 0; padding: 10px 14px; background: rgba(255,255,255,0.05); color: #9ca3af; }
+        
+        /* RAUCHEN: NEUES UI mit Status + 2 Counter (Zigaretten + Joint) */
+        .smoke-status {
+            text-align: center; padding: 10px 12px; border-radius: 10px;
+            font-size: 13px; font-weight: 700; margin-bottom: 14px;
+        }
+        .smoke-status.clean {
+            background: rgba(16, 185, 129, 0.15); color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .smoke-status.tracked {
+            background: rgba(239, 68, 68, 0.12); color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .smoke-row {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 10px; margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .smoke-row:last-child { margin-bottom: 0; }
+        .smoke-icon { font-size: 18px; line-height: 1; }
+        .smoke-label { flex: 1; font-size: 13px; font-weight: 500; color: #d1d5db; }
+        .smoke-controls { display: flex; align-items: center; gap: 8px; }
+        .smoke-btn {
+            width: 34px; height: 34px; border-radius: 9px; border: none;
+            background: rgba(239, 68, 68, 0.18); color: #ef4444; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .smoke-btn svg { width: 14px; height: 14px; stroke: #ef4444; stroke-width: 2.5; fill: none; }
+        .smoke-num {
+            font-size: 20px; font-weight: 800; color: #ef4444;
+            min-width: 26px; text-align: center;
+        }
+        .smoke-num.zero { color: #10b981; }
+        
+        .week-card, .calendar-card, .journal-card, .streaks-card {
+            background: rgba(255,255,255,0.04); border-radius: 20px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px;
+        }
+        .week-card h3, .calendar-card h3, .journal-card h3, .streaks-card h3 {
+            margin: 0 0 16px 0; font-size: 16px; font-weight: 700;
+        }
+        .week-grid { display: flex; justify-content: space-between; gap: 6px; }
+        .week-day { flex: 1; text-align: center; }
+        .week-bar {
+            height: 70px; border-radius: 8px;
+            display: flex; align-items: flex-end; justify-content: center;
+            padding-bottom: 6px; border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 6px; font-size: 11px; font-weight: 700;
+        }
+        .week-label { font-size: 11px; color: #9ca3af; }
+        .streak-row {
+            display: flex; align-items: center; gap: 12px; padding: 8px;
+            border-radius: 10px; margin-bottom: 4px;
+        }
+        .streak-row svg { width: 18px; height: 18px; }
+        .streak-name { flex: 1; font-size: 14px; }
+        .streak-num { font-weight: 700; font-size: 14px; }
+        
+        .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .cal-nav button {
+            background: rgba(255,255,255,0.05); border: none; border-radius: 8px;
+            padding: 8px; cursor: pointer; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cal-nav svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2; fill: none; }
+        .cal-nav h3 { margin: 0; text-transform: capitalize; }
+        .cal-weekdays {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px;
+        }
+        .cal-weekday { text-align: center; font-size: 11px; color: #9ca3af; font-weight: 600; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-day {
+            aspect-ratio: 1; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05); color: #fff;
+            cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600; background: transparent;
+        }
+        .cal-day.today { border: 2px solid #a78bfa; }
+        .cal-day-count { font-size: 9px; color: #c4b5fd; margin-top: 1px; }
+        .cal-legend {
+            margin-top: 16px; display: flex; align-items: center;
+            gap: 8px; font-size: 11px; color: #9ca3af; justify-content: center;
+        }
+        .cal-legend-box { width: 16px; height: 16px; border-radius: 4px; }
+        .cal-tip { margin-top: 16px; font-size: 12px; color: #9ca3af; text-align: center; }
+        
+        textarea {
+            width: 100%; min-height: 180px; padding: 14px;
+            border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.3); color: #fff; font-size: 14px;
+            resize: vertical; outline: none;
+        }
+        
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            display: none; z-index: 100; padding: 20px;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #1e1a2e; border-radius: 24px; padding: 24px;
+            max-width: 420px; width: 100%; max-height: 80vh; overflow-y: auto;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .modal-bottom {
+            background: #1e1a2e; border-radius: 24px 24px 0 0; padding: 24px;
+            width: 100%; max-height: 85vh; overflow-y: auto;
+            border: 1px solid rgba(236, 72, 153, 0.2); margin-top: auto;
+        }
+        .modal-overlay.bottom { align-items: flex-end; padding: 0; }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: 700; }
+        .modal-close {
+            background: rgba(255,255,255,0.05); border: none; border-radius: 8px;
+            padding: 8px; cursor: pointer; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-close svg { width: 18px; height: 18px; stroke: #fff; stroke-width: 2; fill: none; }
+        
+        .math-problem {
+            font-size: 56px; font-weight: 800; text-align: center; margin-bottom: 24px;
+            color: #3b82f6; transition: color 0.3s;
+        }
+        .math-problem.correct { color: #10b981; }
+        .math-problem.wrong { color: #ef4444; }
+        .math-input {
+            width: 100%; padding: 16px; font-size: 20px; font-weight: 700;
+            text-align: center; border-radius: 12px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            background: rgba(0,0,0,0.3); color: #fff;
+            outline: none; margin-bottom: 16px;
+        }
+        .math-feedback { text-align: center; font-weight: 700; margin-bottom: 12px; }
+        .math-feedback.correct { color: #10b981; }
+        .math-feedback.wrong { color: #ef4444; }
+        .math-submit {
+            width: 100%; padding: 14px; border-radius: 12px; border: none;
+            background: #3b82f6; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer;
+        }
+        
+        .inv-empty {
+            text-align: center; padding: 30px 16px; border-radius: 12px;
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1);
+            color: #9ca3af; font-size: 13px; margin-bottom: 12px;
+        }
+        .inv-empty strong { color: #fff; display: block; margin-bottom: 6px; font-size: 15px; }
+        .inv-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px; border-radius: 10px; margin-bottom: 8px;
+        }
+        .inv-item.has {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .inv-item.missing {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .inv-check {
+            width: 24px; height: 24px; border-radius: 6px; border: none;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            background: rgba(255,255,255,0.1);
+        }
+        .inv-check.has { background: #10b981; }
+        .inv-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; opacity: 0; }
+        .inv-check.has svg { opacity: 1; }
+        .inv-name { flex: 1; font-size: 14px; }
+        .inv-name.missing { text-decoration: line-through; color: #ef4444; }
+        .inv-remove { background: transparent; border: none; color: #6b7280; cursor: pointer; padding: 4px; }
+        .inv-remove svg { width: 16px; height: 16px; }
+        .inv-add { display: flex; gap: 8px; margin-top: 12px; }
+        .inv-add input {
+            flex: 1; padding: 12px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.3); color: #fff; font-size: 14px;
+            outline: none;
+        }
+        .inv-add button {
+            padding: 12px 16px; border-radius: 10px; border: none;
+            background: #ec4899; color: #fff; font-weight: 600; cursor: pointer;
+        }
+        .shopping-list {
+            margin-top: 20px; padding: 14px; border-radius: 12px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .shopping-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #ef4444; }
+        .shopping-items { font-size: 13px; color: #fca5a5; }
+        
+        .day-summary {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1));
+            border-radius: 16px; padding: 16px; margin-bottom: 16px; text-align: center;
+        }
+        .day-summary-num { font-size: 32px; font-weight: 800; color: #a78bfa; }
+        .day-summary-label { font-size: 12px; color: #c4b5fd; }
+        .day-cat {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px; border-radius: 10px; margin-bottom: 6px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .day-cat svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .day-cat-name { flex: 1; font-size: 13px; }
+        .day-journal {
+            background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .day-journal-header {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+            font-size: 12px; font-weight: 600; color: #a78bfa;
+        }
+        .day-journal-header svg { width: 14px; height: 14px; stroke: #a78bfa; fill: none; stroke-width: 2; }
+        .day-journal p { margin: 0; font-size: 13px; color: #e5e7eb; white-space: pre-wrap; line-height: 1.5; }
+        
+        .install-banner {
+            position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 16px; padding: 14px 16px; z-index: 200;
+            display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            align-items: center; gap: 12px;
+        }
+        .install-banner.show { display: flex; }
+        .install-banner-text { flex: 1; font-size: 13px; font-weight: 600; }
+        .install-banner-close {
+            background: rgba(255,255,255,0.2); border: none; border-radius: 8px;
+            padding: 6px; cursor: pointer; color: #fff;
+        }
+    </style>
 </head>
 <body>
     <div id="app" class="app"></div>
@@ -298,1121 +400,880 @@ textarea { width: 100%; min-height: 180px; padding: 14px; border-radius: 12px; b
         <div class="install-banner-text">📱 Tipp: Zum Home-Bildschirm hinzufügen für die App-Erfahrung!</div>
         <button class="install-banner-close" onclick="document.getElementById('install-banner').classList.remove('show')">✕</button>
     </div>
-    <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-<script>
-// ============ SVG ICONS ============
-const ICONS = {
-    wallet: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>',
-    activity: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
-    brain: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>',
-    home: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-    package: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
-    cigarette: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 12H3v4h14"/><path d="M22 12v4"/><path d="M18 8c0-2.5 2-2.5 2-5"/><path d="M14 8c0-2.5 2-2.5 2-5"/></svg>',
-    joint: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>',
-    calculator: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="16" y1="10" x2="8" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/></svg>',
-    droplet: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>',
-    flame: '<svg viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
-    trophy: '<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
-    book: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
-    chart: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
-    trending: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
-    check: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-    calendar: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
-    settings: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
-    download: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
-    upload: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
-    trash: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>',
-    plus: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
-    minus: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
-    play: '<svg viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
-    pause: '<svg viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>',
-    reset: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
-    chevronLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
-    chevronRight: '<svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
-    x: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-};
 
-// ============ CATEGORIES ============
-const CATEGORIES = [
-    { id: 'finanzen', name: 'Finanzen', icon: 'wallet', color: '#10b981', goal: 'Heute kein unnötiges Geld ausgegeben', type: 'check' },
-    { id: 'sport', name: 'Sport', icon: 'activity', color: '#f59e0b', goal: '30 Min. Sport', type: 'timer' },
-    { id: 'mental', name: 'Mental Health', icon: 'brain', color: '#8b5cf6', goal: 'Heute clean geblieben', type: 'check' },
-    { id: 'haushalt', name: 'Haushalt', icon: 'home', color: '#06b6d4', goal: '15 Min. aufgeräumt', type: 'check' },
-    { id: 'vorrat', name: 'Haushalt-Check', icon: 'package', color: '#ec4899', goal: 'Was haben wir noch?', type: 'inventory' },
-    { id: 'rauchen', name: 'Rauchen', icon: 'cigarette', color: '#ef4444', goal: 'Weniger Zigaretten als gestern', type: 'counter' },
-    { id: 'joints', name: 'Joints', icon: 'joint', color: '#22c55e', goal: 'Weniger Joints als gestern', type: 'counter' },
-    { id: 'mathe', name: 'Mathe / Lernen', icon: 'calculator', color: '#3b82f6', goal: 'Mathe-Übungen lösen', type: 'math' },
-    { id: 'wasser', name: 'Hydration', icon: 'droplet', color: '#0ea5e9', goal: '2 Liter Wasser', type: 'water' },
-];
+    <script>
+        // ============ ICONS ============
+        const ICONS = {
+            wallet: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>',
+            activity: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+            brain: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>',
+            home: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+            package: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+            cigarette: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 12H3v4h14"/><path d="M22 12v4"/><path d="M18 8c0-2.5 2-2.5 2-5"/><path d="M14 8c0-2.5 2-2.5 2-5"/></svg>',
+            calculator: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="16" y1="10" x2="8" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/><line x1="12" y1="18" x2="12" y2="18"/></svg>',
+            droplet: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>',
+            flame: '<svg viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+            trophy: '<svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+            book: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+            chart: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>',
+            check: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+            calendar: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            plus: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+            minus: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+            play: '<svg viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+            pause: '<svg viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>',
+            reset: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
+            chevronLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+            chevronRight: '<svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+            x: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+        };
 
-const QUOTES = [
-    "Kleine Schritte. Große Veränderung. 🌱",
-    "Du bist heute besser als gestern. 💪",
-    "Jeder Win zählt. Auch der kleinste. ✨",
-    "Struktur entsteht durch Wiederholung. 🔄",
-    "Sei stolz auf dich – du machst es! 🌟",
-    "Fortschritt, keine Perfektion. 🎯",
-    "Heute ist ein guter Tag, um anzufangen. ☀️",
-    "Konsistenz schlägt Perfektion jeden Tag. 🏆",
-    "Du bist auf dem richtigen Weg. Bleib dran! 🚀",
-];
+        // ============ CATEGORIES ============
+        const CATEGORIES = [
+            { id: 'finanzen', name: 'Finanzen', icon: 'wallet', color: '#10b981', goal: 'Heute kein unnötiges Geld ausgegeben', type: 'check' },
+            { id: 'sport', name: 'Sport', icon: 'activity', color: '#f59e0b', goal: '30 Min. Sport', type: 'timer' },
+            { id: 'mental', name: 'Mental Health', icon: 'brain', color: '#8b5cf6', goal: 'Heute clean geblieben', type: 'check' },
+            { id: 'haushalt', name: 'Haushalt', icon: 'home', color: '#06b6d4', goal: '15 Min. aufgeräumt', type: 'check' },
+            { id: 'vorrat', name: 'Haushalt-Check', icon: 'package', color: '#ec4899', goal: 'Was haben wir noch?', type: 'inventory' },
+            { id: 'rauchen', name: 'Rauchen', icon: 'cigarette', color: '#ef4444', goal: 'Clean = Win!', type: 'smoke' },
+            { id: 'mathe', name: 'Mathe / Lernen', icon: 'calculator', color: '#3b82f6', goal: 'Mathe-Übungen lösen', type: 'math' },
+            { id: 'wasser', name: 'Hydration', icon: 'droplet', color: '#0ea5e9', goal: '2 Liter Wasser', type: 'water' },
+        ];
 
-const DEFAULT_INVENTORY = [
-    { id: 'klopapier', name: 'Klopapier', has: true },
-    { id: 'zahnpasta', name: 'Zahnpasta', has: true },
-    { id: 'duschgel', name: 'Duschgel', has: true },
-    { id: 'waschmittel', name: 'Waschmittel', has: true },
-    { id: 'spuelmittel', name: 'Spülmittel', has: true },
-    { id: 'muellbeutel', name: 'Müllbeutel', has: true },
-    { id: 'brot', name: 'Brot', has: true },
-    { id: 'milch', name: 'Milch', has: true },
-];
+        const QUOTES = [
+            "Kleine Schritte. Große Veränderung. 🌱",
+            "Du bist heute besser als gestern. 💪",
+            "Jeder Win zählt. Auch der kleinste. ✨",
+            "Struktur entsteht durch Wiederholung. 🔄",
+            "Sei stolz auf dich – du machst es! 🌟",
+            "Fortschritt, keine Perfektion. 🎯",
+            "Heute ist ein guter Tag, um anzufangen. ☀️",
+        ];
 
-// ============ STATE ============
-let state = {
-    view: 'today',
-    data: {},
-    inventory: DEFAULT_INVENTORY,
-    quote: QUOTES[Math.floor(Math.random() * QUOTES.length)],
-    timerActive: false,
-    timerSeconds: 30 * 60,
-    timerInitial: 30 * 60,
-    timerInterval: null,
-    mathLevel: 1,
-    currentProblem: null,
-    mathAnswer: '',
-    mathFeedback: null,
-    calendarMonth: new Date(),
-    selectedDay: null,
-    showMath: false,
-    showInventory: false,
-    progressPeriod: 7,
-};
+        // ============ STATE ============
+        let state = {
+            view: 'today',
+            data: {},
+            inventory: [], // STARTET LEER!
+            quote: QUOTES[Math.floor(Math.random() * QUOTES.length)],
+            timerActive: false,
+            timerSeconds: 30 * 60,
+            timerInitial: 30 * 60,
+            timerInterval: null,
+            mathLevel: 1,
+            currentProblem: null,
+            mathFeedback: null,
+            calendarMonth: new Date(),
+            selectedDay: null,
+            showMath: false,
+            showInventory: false,
+        };
 
-const today = () => new Date().toISOString().split('T')[0];
+        const today = () => new Date().toISOString().split('T')[0];
 
-// ============ STORAGE ============
-function loadState() {
-    try {
-        const data = localStorage.getItem('lifeStructureData');
-        if (data) state.data = JSON.parse(data);
-        const inv = localStorage.getItem('inventory');
-        if (inv) state.inventory = JSON.parse(inv);
-    } catch (e) { console.error('Load error:', e); }
-}
-
-function saveData() {
-    try {
-        localStorage.setItem('lifeStructureData', JSON.stringify(state.data));
-    } catch (e) { console.error('Save error:', e); }
-}
-
-function saveInventory() {
-    try {
-        localStorage.setItem('inventory', JSON.stringify(state.inventory));
-    } catch (e) { console.error('Save error:', e); }
-}
-
-// ============ HELPERS ============
-function ensureToday() {
-    const t = today();
-    if (!state.data[t]) state.data[t] = {};
-    return state.data[t];
-}
-
-function ensureCategory(id) {
-    const t = ensureToday();
-    if (!t[id]) t[id] = {};
-    return t[id];
-}
-
-function getStreak(categoryId) {
-    let streak = 0;
-    const date = new Date();
-    while (true) {
-        const dateStr = date.toISOString().split('T')[0];
-        if (state.data[dateStr] && state.data[dateStr][categoryId]?.done) {
-            streak++;
-            date.setDate(date.getDate() - 1);
-        } else break;
-    }
-    return streak;
-}
-
-function getBestStreak(categoryId) {
-    const dates = Object.keys(state.data).sort();
-    let best = 0, cur = 0, prev = null;
-    for (const d of dates) {
-        if (state.data[d][categoryId]?.done) {
-            if (prev) {
-                const diff = (new Date(d) - new Date(prev)) / 86400000;
-                cur = diff === 1 ? cur + 1 : 1;
-            } else cur = 1;
-            if (cur > best) best = cur;
-            prev = d;
-        } else { cur = 0; prev = null; }
-    }
-    return best;
-}
-
-function totalScore() {
-    return Object.keys(state.data).reduce((sum, date) => {
-        return sum + CATEGORIES.filter(c => state.data[date][c.id]?.done).length;
-    }, 0);
-}
-
-function completedToday() {
-    const t = state.data[today()] || {};
-    return CATEGORIES.filter(c => t[c.id]?.done).length;
-}
-
-function formatTime(s) {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-}
-
-function getDaysBefore(n) {
-    const results = [];
-    for (let i = n - 1; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        results.push(d.toISOString().split('T')[0]);
-    }
-    return results;
-}
-
-function avgCompletionForDays(dates) {
-    if (!dates.length) return 0;
-    const total = dates.reduce((sum, d) => {
-        const dayData = state.data[d] || {};
-        return sum + CATEGORIES.filter(c => dayData[c.id]?.done).length;
-    }, 0);
-    return total / dates.length;
-}
-
-function avgCountForDays(dates, field) {
-    const active = dates.filter(d => state.data[d] && state.data[d][field]?.count !== undefined);
-    if (!active.length) return null;
-    return active.reduce((sum, d) => sum + (state.data[d][field]?.count || 0), 0) / active.length;
-}
-
-function firstUseDate() {
-    const dates = Object.keys(state.data).sort();
-    return dates.length ? dates[0] : today();
-}
-
-function daysSinceStart() {
-    const first = new Date(firstUseDate());
-    const now = new Date(today());
-    return Math.round((now - first) / 86400000) + 1;
-}
-
-// ============ ACTIONS ============
-function toggleCheck(id) {
-    const cat = ensureCategory(id);
-    cat.done = !cat.done;
-    saveData();
-    render();
-}
-
-function updateWater(ml) {
-    const newMl = Math.max(0, ml);
-    const cat = ensureCategory('wasser');
-    cat.ml = newMl;
-    cat.done = newMl >= 2000;
-    saveData();
-    render();
-}
-
-function updateSmoke(count) {
-    const newCount = Math.max(0, count);
-    const cat = ensureCategory('rauchen');
-    cat.count = newCount;
-    cat.done = newCount > 0;
-    saveData();
-    render();
-}
-
-function updateJoints(count) {
-    const newCount = Math.max(0, count);
-    const cat = ensureCategory('joints');
-    cat.count = newCount;
-    cat.done = newCount > 0;
-    saveData();
-    render();
-}
-
-function updateJournal(text) {
-    const t = ensureToday();
-    t.journal = text;
-    saveData();
-}
-
-function setView(view) {
-    state.view = view;
-    state.selectedDay = null;
-    render();
-}
-
-function setProgressPeriod(n) {
-    state.progressPeriod = n;
-    render();
-}
-
-// ============ TIMER ============
-function startTimer(minutes) {
-    state.timerInitial = minutes * 60;
-    state.timerSeconds = minutes * 60;
-    state.timerActive = true;
-    startTimerInterval();
-    render();
-}
-
-function startTimerInterval() {
-    if (state.timerInterval) clearInterval(state.timerInterval);
-    state.timerInterval = setInterval(() => {
-        if (!state.timerActive) { clearInterval(state.timerInterval); return; }
-        state.timerSeconds--;
-        if (state.timerSeconds <= 0) {
-            state.timerActive = false;
-            state.timerSeconds = 0;
-            clearInterval(state.timerInterval);
-            const cat = ensureCategory('sport');
-            cat.done = true;
-            cat.minutes = Math.round(state.timerInitial / 60);
-            saveData();
-            if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
-            alert('🎉 Sport erledigt! Super gemacht!');
-        }
-        updateTimerUI();
-    }, 1000);
-}
-
-function updateTimerUI() {
-    const display = document.getElementById('timer-display');
-    if (display) display.textContent = formatTime(state.timerSeconds);
-    const fill = document.getElementById('timer-fill');
-    if (fill) {
-        const pct = ((state.timerInitial - state.timerSeconds) / state.timerInitial) * 100;
-        fill.style.width = pct + '%';
-    }
-}
-
-function toggleTimer() {
-    state.timerActive = !state.timerActive;
-    if (state.timerActive) startTimerInterval();
-    render();
-}
-
-function resetTimer() {
-    state.timerActive = false;
-    if (state.timerInterval) clearInterval(state.timerInterval);
-    state.timerSeconds = state.timerInitial;
-    render();
-}
-
-// ============ MATH ============
-function generateProblem(level) {
-    const ops = ['+', '-', '*'];
-    const op = ops[Math.floor(Math.random() * (level === 1 ? 2 : 3))];
-    let a, b, answer;
-    if (level === 1) { a = Math.floor(Math.random() * 20) + 1; b = Math.floor(Math.random() * 20) + 1; }
-    else if (level === 2) { a = Math.floor(Math.random() * 50) + 10; b = Math.floor(Math.random() * 50) + 10; }
-    else { a = Math.floor(Math.random() * 100) + 10; b = Math.floor(Math.random() * 20) + 2; }
-    if (op === '-' && b > a) [a, b] = [b, a];
-    switch(op) {
-        case '+': answer = a + b; break;
-        case '-': answer = a - b; break;
-        case '*': answer = a * b; break;
-    }
-    return { a, b, op, answer };
-}
-
-function startMath(level) {
-    state.mathLevel = level;
-    state.currentProblem = generateProblem(level);
-    state.mathAnswer = '';
-    state.mathFeedback = null;
-    state.showMath = true;
-    render();
-}
-
-function checkMath() {
-    const input = document.getElementById('math-input');
-    if (!input || !state.currentProblem) return;
-    const userAnswer = parseInt(input.value);
-    if (isNaN(userAnswer)) return;
-    if (userAnswer === state.currentProblem.answer) {
-        state.mathFeedback = 'correct';
-        const cat = ensureCategory('mathe');
-        cat.solved = (cat.solved || 0) + 1;
-        cat.done = cat.solved >= 5;
-        saveData();
-        render();
-        setTimeout(() => {
-            state.currentProblem = generateProblem(state.mathLevel);
-            state.mathAnswer = '';
-            state.mathFeedback = null;
-            render();
-        }, 800);
-    } else {
-        state.mathFeedback = 'wrong';
-        render();
-        setTimeout(() => { state.mathFeedback = null; render(); }, 1500);
-    }
-}
-
-function closeMath() { state.showMath = false; render(); }
-
-// ============ INVENTORY ============
-function toggleInventoryItem(id) {
-    state.inventory = state.inventory.map(item => item.id === id ? { ...item, has: !item.has } : item);
-    saveInventory();
-    const cat = ensureCategory('vorrat');
-    cat.done = state.inventory.every(i => i.has);
-    saveData();
-    render();
-}
-
-function addInventoryItem() {
-    const input = document.getElementById('new-item-input');
-    if (!input || !input.value.trim()) return;
-    state.inventory.push({ id: 'item_' + Date.now(), name: input.value.trim(), has: true });
-    saveInventory();
-    input.value = '';
-    render();
-    setTimeout(() => { const ni = document.getElementById('new-item-input'); if (ni) ni.focus(); }, 50);
-}
-
-function removeInventoryItem(id) {
-    state.inventory = state.inventory.filter(i => i.id !== id);
-    saveInventory();
-    render();
-}
-
-function openInventory() { state.showInventory = true; render(); }
-function closeInventory() { state.showInventory = false; render(); }
-
-// ============ CALENDAR ============
-function changeMonth(delta) {
-    const d = new Date(state.calendarMonth);
-    d.setMonth(d.getMonth() + delta);
-    state.calendarMonth = d;
-    render();
-}
-
-function selectDay(dateStr) { state.selectedDay = dateStr; render(); }
-function closeDayDetail() { state.selectedDay = null; render(); }
-
-// ============ EXPORT / IMPORT ============
-function exportData() {
-    const payload = {
-        version: 1,
-        exportDate: new Date().toISOString(),
-        data: state.data,
-        inventory: state.inventory,
-    };
-    const json = JSON.stringify(payload, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `daily-wins-backup-${today()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
-function triggerImport() {
-    document.getElementById('import-file').click();
-}
-
-function importData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        try {
-            const payload = JSON.parse(e.target.result);
-            if (!payload.data) { alert('Ungültige Datei.'); return; }
-            const merge = confirm(
-                `Backup vom ${payload.exportDate ? new Date(payload.exportDate).toLocaleDateString('de-DE') : '?'} gefunden.\n\n` +
-                'Zusammenführen mit bestehenden Daten? (Ja = zusammenführen, Abbrechen = ersetzen)'
-            );
-            if (merge) {
-                state.data = { ...payload.data, ...state.data };
-            } else {
-                state.data = payload.data;
-                if (payload.inventory) state.inventory = payload.inventory;
+        // ============ STORAGE ============
+        function loadState() {
+            try {
+                const data = localStorage.getItem('lifeStructureData');
+                if (data) {
+                    state.data = JSON.parse(data);
+                    // MIGRATION: alte Daten mit "count" -> "cigarettes"
+                    Object.keys(state.data).forEach(date => {
+                        const r = state.data[date].rauchen;
+                        if (r && r.count !== undefined && r.cigarettes === undefined) {
+                            r.cigarettes = r.count;
+                            delete r.count;
+                        }
+                        if (r) {
+                            // Re-evaluate done flag mit neuer Logik
+                            const cigs = r.cigarettes || 0;
+                            const joints = r.joints || 0;
+                            r.done = (cigs === 0 && joints === 0);
+                        }
+                    });
+                }
+                const inv = localStorage.getItem('inventory');
+                if (inv !== null) {
+                    // Wenn der User schon mal die Liste angefasst hat (auch wenn leer): seine Daten benutzen
+                    state.inventory = JSON.parse(inv);
+                }
+                // Wenn inv === null (noch nie gespeichert): leere Liste behalten (vom Default)
+            } catch (e) {
+                console.error('Load error:', e);
             }
+        }
+
+        function saveData() {
+            try { localStorage.setItem('lifeStructureData', JSON.stringify(state.data)); }
+            catch (e) { console.error('Save error:', e); }
+        }
+
+        function saveInventory() {
+            try { localStorage.setItem('inventory', JSON.stringify(state.inventory)); }
+            catch (e) { console.error('Save error:', e); }
+        }
+
+        // ============ HELPERS ============
+        function ensureToday() {
+            const t = today();
+            if (!state.data[t]) state.data[t] = {};
+            return state.data[t];
+        }
+
+        function ensureCategory(id) {
+            const t = ensureToday();
+            if (!t[id]) t[id] = {};
+            return t[id];
+        }
+
+        function getStreak(categoryId) {
+            let streak = 0;
+            const date = new Date();
+            while (true) {
+                const dateStr = date.toISOString().split('T')[0];
+                if (state.data[dateStr] && state.data[dateStr][categoryId]?.done) {
+                    streak++;
+                    date.setDate(date.getDate() - 1);
+                } else break;
+            }
+            return streak;
+        }
+
+        function totalScore() {
+            return Object.keys(state.data).reduce((sum, date) => {
+                return sum + CATEGORIES.filter(c => state.data[date][c.id]?.done).length;
+            }, 0);
+        }
+
+        function completedToday() {
+            const t = state.data[today()] || {};
+            return CATEGORIES.filter(c => t[c.id]?.done).length;
+        }
+
+        function formatTime(s) {
+            const m = Math.floor(s / 60);
+            const sec = s % 60;
+            return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        // ============ ACTIONS ============
+        function toggleCheck(id) {
+            const cat = ensureCategory(id);
+            cat.done = !cat.done;
+            saveData(); render();
+        }
+
+        function updateWater(ml) {
+            const newMl = Math.max(0, ml);
+            const cat = ensureCategory('wasser');
+            cat.ml = newMl;
+            cat.done = newMl >= 2000;
+            saveData(); render();
+        }
+
+        // ===== RAUCHEN: NEUE LOGIK =====
+        // done = TRUE wenn cigarettes === 0 UND joints === 0
+        // Beides null = clean Tag = Win!
+        function recalcSmokeDone() {
+            const cat = ensureCategory('rauchen');
+            const cigs = cat.cigarettes || 0;
+            const joints = cat.joints || 0;
+            cat.done = (cigs === 0 && joints === 0);
+        }
+
+        function updateCigarettes(count) {
+            const cat = ensureCategory('rauchen');
+            cat.cigarettes = Math.max(0, count);
+            recalcSmokeDone();
+            saveData(); render();
+        }
+
+        function updateJoints(count) {
+            const cat = ensureCategory('rauchen');
+            cat.joints = Math.max(0, count);
+            recalcSmokeDone();
+            saveData(); render();
+        }
+
+        function updateJournal(text) {
+            const t = ensureToday();
+            t.journal = text;
             saveData();
-            saveInventory();
-            alert('✅ Daten erfolgreich importiert!');
-            render();
-        } catch (err) {
-            alert('Fehler beim Importieren: ' + err.message);
         }
-    };
-    reader.readAsText(file);
-    event.target.value = '';
-}
 
-function clearAllData() {
-    if (confirm('⚠️ Alle Daten löschen? Das kann nicht rückgängig gemacht werden!\n\nSichere zuerst deine Daten mit dem Export!')) {
-        if (confirm('Wirklich sicher? Alle Einträge werden gelöscht.')) {
-            state.data = {};
-            state.inventory = JSON.parse(JSON.stringify(DEFAULT_INVENTORY));
+        function setView(view) {
+            state.view = view;
+            state.selectedDay = null;
+            render();
+        }
+
+        // ============ TIMER ============
+        function startTimer(minutes) {
+            state.timerInitial = minutes * 60;
+            state.timerSeconds = minutes * 60;
+            state.timerActive = true;
+            startTimerInterval();
+            render();
+        }
+
+        function startTimerInterval() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            state.timerInterval = setInterval(() => {
+                if (!state.timerActive) {
+                    clearInterval(state.timerInterval);
+                    return;
+                }
+                state.timerSeconds--;
+                if (state.timerSeconds <= 0) {
+                    state.timerActive = false;
+                    state.timerSeconds = 0;
+                    clearInterval(state.timerInterval);
+                    const cat = ensureCategory('sport');
+                    cat.done = true;
+                    cat.minutes = Math.round(state.timerInitial / 60);
+                    saveData();
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+                    alert('🎉 Sport erledigt! Super gemacht!');
+                }
+                updateTimerUI();
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const display = document.getElementById('timer-display');
+            if (display) display.textContent = formatTime(state.timerSeconds);
+            const fill = document.getElementById('timer-fill');
+            if (fill) {
+                const pct = ((state.timerInitial - state.timerSeconds) / state.timerInitial) * 100;
+                fill.style.width = pct + '%';
+            }
+        }
+
+        function toggleTimer() {
+            state.timerActive = !state.timerActive;
+            if (state.timerActive) startTimerInterval();
+            render();
+        }
+
+        function resetTimer() {
+            state.timerActive = false;
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            state.timerSeconds = state.timerInitial;
+            render();
+        }
+
+        // ============ MATH ============
+        function generateProblem(level) {
+            const ops = ['+', '-', '*'];
+            const op = ops[Math.floor(Math.random() * (level === 1 ? 2 : 3))];
+            let a, b, answer;
+            if (level === 1) { a = Math.floor(Math.random() * 20) + 1; b = Math.floor(Math.random() * 20) + 1; }
+            else if (level === 2) { a = Math.floor(Math.random() * 50) + 10; b = Math.floor(Math.random() * 50) + 10; }
+            else { a = Math.floor(Math.random() * 100) + 10; b = Math.floor(Math.random() * 20) + 2; }
+            if (op === '-' && b > a) [a, b] = [b, a];
+            switch(op) {
+                case '+': answer = a + b; break;
+                case '-': answer = a - b; break;
+                case '*': answer = a * b; break;
+            }
+            return { a, b, op, answer };
+        }
+
+        function startMath(level) {
+            state.mathLevel = level;
+            state.currentProblem = generateProblem(level);
+            state.mathFeedback = null;
+            state.showMath = true;
+            render();
+        }
+
+        function checkMath() {
+            const input = document.getElementById('math-input');
+            if (!input || !state.currentProblem) return;
+            const userAnswer = parseInt(input.value);
+            if (isNaN(userAnswer)) return;
+            
+            if (userAnswer === state.currentProblem.answer) {
+                state.mathFeedback = 'correct';
+                const cat = ensureCategory('mathe');
+                cat.solved = (cat.solved || 0) + 1;
+                cat.done = cat.solved >= 5;
+                saveData(); render();
+                setTimeout(() => {
+                    state.currentProblem = generateProblem(state.mathLevel);
+                    state.mathFeedback = null;
+                    render();
+                }, 800);
+            } else {
+                state.mathFeedback = 'wrong';
+                render();
+                setTimeout(() => { state.mathFeedback = null; render(); }, 1500);
+            }
+        }
+
+        function closeMath() { state.showMath = false; render(); }
+
+        // ============ INVENTORY ============
+        function toggleInventoryItem(id) {
+            state.inventory = state.inventory.map(item =>
+                item.id === id ? { ...item, has: !item.has } : item
+            );
+            saveInventory();
+            const cat = ensureCategory('vorrat');
+            // Win: alle Items "haben" ODER Liste ist leer ist nicht ein Win
+            cat.done = state.inventory.length > 0 && state.inventory.every(i => i.has);
             saveData();
-            saveInventory();
             render();
         }
-    }
-}
 
-// ============ RENDER – TODAY ============
-function renderCategory(cat) {
-    const t = state.data[today()] || {};
-    const isDone = t[cat.id]?.done;
-    const streak = getStreak(cat.id);
-    const styleVars = `--cat-color: ${cat.color}; --cat-bg: ${cat.color}15; --cat-border: ${cat.color}40; --cat-icon-bg: ${cat.color}20; --cat-light-bg: ${cat.color}25;`;
-
-    if (cat.id === 'sport') {
-        const timerInProgress = state.timerActive || (state.timerSeconds < state.timerInitial && state.timerSeconds > 0);
-        return `
-            <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
-                <div class="complex-header">
-                    <div class="cat-icon">${ICONS[cat.icon]}</div>
-                    <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
-                        <div class="cat-goal">${isDone ? '✓ Erledigt!' : 'Timer wählen & los!'}</div>
-                    </div>
-                    ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
-                </div>
-                ${timerInProgress ? `
-                    <div class="timer-display" id="timer-display">${formatTime(state.timerSeconds)}</div>
-                    <div class="timer-progress-bg">
-                        <div class="timer-progress" id="timer-fill" style="width: ${((state.timerInitial - state.timerSeconds) / state.timerInitial) * 100}%; background: ${cat.color};"></div>
-                    </div>
-                    <div class="btn-row">
-                        <button class="btn btn-primary" onclick="toggleTimer()">
-                            ${state.timerActive ? ICONS.pause + ' Pause' : ICONS.play + ' Weiter'}
-                        </button>
-                        <button class="btn btn-secondary" onclick="resetTimer()">${ICONS.reset}</button>
-                    </div>
-                ` : `
-                    <div class="btn-row">
-                        <button class="btn btn-tertiary" onclick="startTimer(15)">15 Min</button>
-                        <button class="btn btn-tertiary" onclick="startTimer(30)">30 Min</button>
-                        <button class="btn btn-tertiary" onclick="startTimer(45)">45 Min</button>
-                    </div>
-                `}
-            </div>`;
-    }
-
-    if (cat.id === 'wasser') {
-        const ml = t.wasser?.ml || 0;
-        const liters = (ml / 1000).toFixed(1);
-        const percent = Math.min((ml / 2000) * 100, 100);
-        return `
-            <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
-                <div class="complex-header">
-                    <div class="cat-icon">${ICONS[cat.icon]}</div>
-                    <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
-                        <div class="cat-goal">${liters} L / 2.0 L</div>
-                    </div>
-                    ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
-                </div>
-                <div class="water-bottle">
-                    <div class="water-fill" style="height: ${percent}%; background: linear-gradient(180deg, ${cat.color}aa, ${cat.color});"></div>
-                    <div class="water-text">${Math.round(percent)}%</div>
-                </div>
-                <div class="water-btns">
-                    <button class="water-btn" onclick="updateWater(${ml + 250})">+ 0.25L</button>
-                    <button class="water-btn" onclick="updateWater(${ml + 500})">+ 0.5L</button>
-                    <button class="water-btn" onclick="updateWater(${ml + 1000})">+ 1L</button>
-                    <button class="water-btn reset" onclick="updateWater(0)">${ICONS.reset}</button>
-                </div>
-            </div>`;
-    }
-
-    if (cat.id === 'rauchen') {
-        const count = t.rauchen?.count || 0;
-        return `
-            <div class="complex-card" style="${styleVars}">
-                <div class="complex-header">
-                    <div class="cat-icon">${ICONS[cat.icon]}</div>
-                    <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
-                        <div class="cat-goal">Heute: ${count} Zigaretten</div>
-                    </div>
-                </div>
-                <div class="smoke-controls">
-                    <button class="smoke-btn" onclick="updateSmoke(${count - 1})">${ICONS.minus}</button>
-                    <div class="smoke-num">${count}</div>
-                    <button class="smoke-btn" onclick="updateSmoke(${count + 1})">${ICONS.plus}</button>
-                </div>
-            </div>`;
-    }
-
-    if (cat.id === 'joints') {
-        const count = t.joints?.count || 0;
-        const c = cat.color;
-        return `
-            <div class="complex-card" style="${styleVars}">
-                <div class="complex-header">
-                    <div class="cat-icon">${ICONS[cat.icon]}</div>
-                    <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
-                        <div class="cat-goal">Heute: ${count} Joints</div>
-                    </div>
-                </div>
-                <div class="smoke-controls">
-                    <button style="width:44px;height:44px;border-radius:12px;border:none;background:${c}20;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="updateJoints(${count - 1})">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
-                    <div style="font-size:32px;font-weight:800;color:${c};">${count}</div>
-                    <button style="width:44px;height:44px;border-radius:12px;border:none;background:${c}20;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="updateJoints(${count + 1})">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    </button>
-                </div>
-            </div>`;
-    }
-
-    if (cat.id === 'mathe') {
-        const solved = t.mathe?.solved || 0;
-        return `
-            <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
-                <div class="complex-header">
-                    <div class="cat-icon">${ICONS[cat.icon]}</div>
-                    <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
-                        <div class="cat-goal">${solved} gelöst heute • Ziel: 5</div>
-                    </div>
-                    ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
-                </div>
-                <div class="btn-row">
-                    <button class="btn btn-tertiary" onclick="startMath(1)">Easy</button>
-                    <button class="btn btn-tertiary" onclick="startMath(2)">Medium</button>
-                    <button class="btn btn-tertiary" onclick="startMath(3)">Hard</button>
-                </div>
-            </div>`;
-    }
-
-    if (cat.id === 'vorrat') {
-        const missing = state.inventory.filter(i => !i.has).length;
-        return `
-            <button class="category ${isDone ? 'done' : ''}" style="${styleVars}" onclick="openInventory()">
-                <div class="cat-icon">${ICONS[cat.icon]}</div>
-                <div class="cat-info">
-                    <div class="cat-name">${cat.name}</div>
-                    <div class="cat-goal" style="color: ${missing > 0 ? '#ef4444' : '#9ca3af'};">
-                        ${missing > 0 ? `⚠️ ${missing} Sachen fehlen!` : '✓ Alles da'}
-                    </div>
-                </div>
-                ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
-                ${ICONS.chevronRight}
-            </button>`;
-    }
-
-    return `
-        <button class="category ${isDone ? 'done' : ''}" style="${styleVars}" onclick="toggleCheck('${cat.id}')">
-            <div class="cat-icon">${ICONS[cat.icon]}</div>
-            <div class="cat-info">
-                <div class="cat-name">${cat.name}</div>
-                <div class="cat-goal">${cat.goal}</div>
-            </div>
-            ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
-            <div class="cat-check ${isDone ? 'done' : ''}">${ICONS.check}</div>
-        </button>`;
-}
-
-function renderTodayView() {
-    const completed = completedToday();
-    return `
-        <div class="content">
-            <div class="progress-card">
-                <div class="progress-num">${completed}<span>/${CATEGORIES.length}</span></div>
-                <div class="progress-label">Wins heute • ${Math.round((completed/CATEGORIES.length)*100)}% geschafft</div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" style="width: ${(completed/CATEGORIES.length)*100}%;"></div>
-                </div>
-            </div>
-            <div class="category-list">
-                ${CATEGORIES.map(renderCategory).join('')}
-            </div>
-        </div>`;
-}
-
-// ============ RENDER – WEEK ============
-function renderWeekView() {
-    const days = [];
-    for (let i = 6; i >= 0; i--) {
-        const date = new Date();
-        date.setDate(date.getDate() - i);
-        const dateStr = date.toISOString().split('T')[0];
-        const dayData = state.data[dateStr] || {};
-        const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
-        days.push({ label: date.toLocaleDateString('de-DE', { weekday: 'short' }), completed });
-    }
-    return `
-        <div class="content">
-            <div class="week-card">
-                <h3>Letzte 7 Tage</h3>
-                <div class="week-grid">
-                    ${days.map(d => {
-                        const opacity = 0.15 + (d.completed/CATEGORIES.length) * 0.85;
-                        return `
-                            <div class="week-day">
-                                <div class="week-bar" style="background: rgba(139, 92, 246, ${opacity});">${d.completed}</div>
-                                <div class="week-label">${d.label}</div>
-                            </div>`;
-                    }).join('')}
-                </div>
-            </div>
-            <div class="streaks-card">
-                <h3>Aktuelle Streaks 🔥</h3>
-                ${CATEGORIES.map(cat => {
-                    const streak = getStreak(cat.id);
-                    const bg = streak > 0 ? `${cat.color}10` : 'transparent';
-                    return `
-                        <div class="streak-row" style="background: ${bg};">
-                            <span style="color: ${cat.color}; display: inline-flex;">${ICONS[cat.icon].replace('stroke-width="2"', `stroke="${cat.color}" stroke-width="2"`)}</span>
-                            <span class="streak-name">${cat.name}</span>
-                            <span class="streak-num" style="color: ${streak > 0 ? '#f59e0b' : '#6b7280'};">${streak} ${streak === 1 ? 'Tag' : 'Tage'}</span>
-                        </div>`;
-                }).join('')}
-            </div>
-        </div>`;
-}
-
-// ============ RENDER – CALENDAR ============
-function renderCalendarView() {
-    const year = state.calendarMonth.getFullYear();
-    const month = state.calendarMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startWeekday = (firstDay.getDay() + 6) % 7;
-    const daysInMonth = lastDay.getDate();
-    const monthName = state.calendarMonth.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
-
-    let cells = [];
-    for (let i = 0; i < startWeekday; i++) cells.push('<div></div>');
-    for (let d = 1; d <= daysInMonth; d++) {
-        const date = new Date(year, month, d);
-        const dateStr = date.toISOString().split('T')[0];
-        const dayData = state.data[dateStr] || {};
-        const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
-        const intensity = completed / CATEGORIES.length;
-        const opacity = completed > 0 ? 0.2 + intensity * 0.7 : 0.05;
-        const isToday = dateStr === today();
-        cells.push(`
-            <button class="cal-day ${isToday ? 'today' : ''}"
-                    style="background: rgba(139, 92, 246, ${opacity});"
-                    onclick="selectDay('${dateStr}')">
-                <div>${d}</div>
-                ${completed > 0 ? `<div class="cal-day-count">${completed}/9</div>` : ''}
-            </button>`);
-    }
-
-    return `
-        <div class="content">
-            <div class="calendar-card">
-                <div class="cal-nav">
-                    <button onclick="changeMonth(-1)">${ICONS.chevronLeft}</button>
-                    <h3>${monthName}</h3>
-                    <button onclick="changeMonth(1)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-                </div>
-                <div class="cal-weekdays">
-                    ${['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => `<div class="cal-weekday">${d}</div>`).join('')}
-                </div>
-                <div class="cal-grid">${cells.join('')}</div>
-                <div class="cal-legend">
-                    <span>Wenig</span>
-                    ${[0.05, 0.3, 0.5, 0.7, 0.9].map(o => `<div class="cal-legend-box" style="background: rgba(139, 92, 246, ${o});"></div>`).join('')}
-                    <span>Viel</span>
-                </div>
-                <p class="cal-tip">Tipp: Tag antippen für Details & Journal</p>
-            </div>
-        </div>`;
-}
-
-// ============ RENDER – JOURNAL ============
-function renderJournalView() {
-    const entry = state.data[today()]?.journal || '';
-    return `
-        <div class="content">
-            <div class="journal-card">
-                <h3>Journal heute</h3>
-                <p style="font-size: 13px; color: #9ca3af; margin: 0 0 16px 0;">
-                    Was hat dir heute geholfen? Was war schwer?
-                </p>
-                <textarea id="journal-textarea" placeholder="Heute war..."
-                            oninput="updateJournal(this.value)">${entry}</textarea>
-                <p style="font-size: 11px; color: #6b7280; margin-top: 8px; text-align: right;">
-                    ${entry.length} Zeichen • automatisch gespeichert
-                </p>
-            </div>
-        </div>`;
-}
-
-// ============ RENDER – FORTSCHRITT ============
-function renderProgressView() {
-    const n = state.progressPeriod;
-    const thisPeriod = getDaysBefore(n);
-    const lastPeriod = [];
-    for (let i = n * 2 - 1; i >= n; i--) {
-        const d = new Date(); d.setDate(d.getDate() - i);
-        lastPeriod.push(d.toISOString().split('T')[0]);
-    }
-
-    const avgThis = avgCompletionForDays(thisPeriod);
-    const avgLast = avgCompletionForDays(lastPeriod);
-    const pctChange = avgLast > 0 ? ((avgThis - avgLast) / avgLast * 100).toFixed(0) : null;
-
-    const smokeThis = avgCountForDays(thisPeriod, 'rauchen');
-    const smokeLast = avgCountForDays(lastPeriod, 'rauchen');
-    const jointThis = avgCountForDays(thisPeriod, 'joints');
-    const jointLast = avgCountForDays(lastPeriod, 'joints');
-
-    const daysUsed = Object.keys(state.data).length;
-    const totalDays = daysSinceStart();
-
-    function trendBadge(current, previous, lowerIsBetter = false) {
-        if (previous === null || previous === undefined) return '<span class="trend-badge same">Neu</span>';
-        const diff = current - previous;
-        if (Math.abs(diff) < 0.1) return '<span class="trend-badge same">= gleich</span>';
-        if (lowerIsBetter) {
-            if (diff < 0) return `<span class="trend-badge good-down">↓ ${Math.abs(diff).toFixed(1)} besser</span>`;
-            return `<span class="trend-badge bad-up">↑ ${diff.toFixed(1)} schlechter</span>`;
-        } else {
-            if (diff > 0) return `<span class="trend-badge up">↑ ${diff.toFixed(1)} besser</span>`;
-            return `<span class="trend-badge down">↓ ${Math.abs(diff).toFixed(1)} schlechter</span>`;
+        function addInventoryItem() {
+            const input = document.getElementById('new-item-input');
+            if (!input || !input.value.trim()) return;
+            state.inventory.push({
+                id: 'item_' + Date.now(),
+                name: input.value.trim(),
+                has: true,
+            });
+            saveInventory();
+            // Recalc done state
+            const cat = ensureCategory('vorrat');
+            cat.done = state.inventory.length > 0 && state.inventory.every(i => i.has);
+            saveData();
+            input.value = '';
+            render();
+            setTimeout(() => {
+                const newInput = document.getElementById('new-item-input');
+                if (newInput) newInput.focus();
+            }, 50);
         }
-    }
 
-    // Last N days timeline for completions
-    const timelineData = thisPeriod.map(d => {
-        const dayData = state.data[d] || {};
-        return CATEGORIES.filter(c => dayData[c.id]?.done).length;
-    });
-    const maxInPeriod = Math.max(...timelineData, 1);
+        function removeInventoryItem(id) {
+            state.inventory = state.inventory.filter(i => i.id !== id);
+            saveInventory();
+            const cat = ensureCategory('vorrat');
+            cat.done = state.inventory.length > 0 && state.inventory.every(i => i.has);
+            saveData();
+            render();
+        }
 
-    // Best streaks
-    const topStreaks = CATEGORIES.map(cat => ({
-        cat,
-        current: getStreak(cat.id),
-        best: getBestStreak(cat.id),
-    })).filter(s => s.best > 0).sort((a, b) => b.best - a.best).slice(0, 4);
+        function openInventory() { state.showInventory = true; render(); }
+        function closeInventory() { state.showInventory = false; render(); }
 
-    return `
-        <div class="content">
-            <div class="stats-card">
-                <h3>Zeitraum</h3>
-                <div class="period-btn-row">
-                    ${[7, 14, 30].map(p => `<button class="period-btn ${state.progressPeriod === p ? 'active' : ''}" onclick="setProgressPeriod(${p})">
-                        ${p} Tage
-                    </button>`).join('')}
-                </div>
-                <div class="stats-row">
-                    <div class="stat-box">
-                        <div class="stat-box-num" style="background: linear-gradient(135deg,#a78bfa,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${totalScore()}</div>
-                        <div class="stat-box-label">Gesamt-Wins</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-box-num" style="color: #a78bfa;">${daysUsed}</div>
-                        <div class="stat-box-label">Tage genutzt</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-box-num" style="color: #f59e0b;">${totalDays}</div>
-                        <div class="stat-box-label">Tage dabei</div>
-                    </div>
-                </div>
-                <div class="days-since">
-                    🚀 Du nutzt Daily Wins seit <strong>${totalDays}</strong> Tag${totalDays === 1 ? '' : 'en'} — weiter so!
-                </div>
-            </div>
+        // ============ CALENDAR ============
+        function changeMonth(delta) {
+            const d = new Date(state.calendarMonth);
+            d.setMonth(d.getMonth() + delta);
+            state.calendarMonth = d;
+            render();
+        }
 
-            <div class="stats-card">
-                <h3>Letzte ${n} Tage – Verlauf</h3>
-                <div class="progress-timeline">
-                    ${timelineData.map((val, i) => {
-                        const d = new Date(thisPeriod[i]);
-                        const label = d.toLocaleDateString('de-DE', { weekday: 'short' });
-                        const fillPct = Math.round((val / CATEGORIES.length) * 100);
-                        const color = val >= CATEGORIES.length * 0.7 ? '#10b981' : val >= CATEGORIES.length * 0.4 ? '#f59e0b' : '#8b5cf6';
-                        return `
-                            <div class="timeline-bar">
-                                <div class="timeline-label">${label}</div>
-                                <div class="timeline-track">
-                                    <div class="timeline-fill" style="width: ${fillPct}%; background: ${color};"></div>
-                                </div>
-                                <div class="timeline-val" style="color: ${color};">${val}</div>
-                            </div>`;
-                    }).join('')}
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:12px;color:#9ca3af;">
-                    <span>Ø diese Periode: <strong style="color:#fff">${avgThis.toFixed(1)}</strong></span>
-                    <span>Ø letzte Periode: <strong style="color:#fff">${avgLast.toFixed(1)}</strong></span>
-                    ${pctChange !== null ? `<span>${Number(pctChange) >= 0 ? '📈' : '📉'} <strong style="color:${Number(pctChange) >= 0 ? '#10b981' : '#ef4444'}">${pctChange > 0 ? '+' : ''}${pctChange}%</strong></span>` : ''}
-                </div>
-            </div>
+        function selectDay(dateStr) { state.selectedDay = dateStr; render(); }
+        function closeDayDetail() { state.selectedDay = null; render(); }
 
-            <div class="stats-card">
-                <h3>Trends im Vergleich</h3>
-                ${smokeThis !== null ? `
-                <div class="trend-row">
-                    <div class="trend-icon" style="background: rgba(239,68,68,0.15);">${ICONS.cigarette.replace('stroke-width="2"', 'stroke="#ef4444" stroke-width="2" width="18" height="18"')}</div>
-                    <div class="trend-info">
-                        <div class="trend-name">Rauchen</div>
-                        <div class="trend-detail">Ø ${smokeThis.toFixed(1)} Zig/Tag (vorher: ${smokeLast !== null ? smokeLast.toFixed(1) : '–'})</div>
-                    </div>
-                    ${trendBadge(smokeThis, smokeLast, true)}
-                </div>` : ''}
-                ${jointThis !== null ? `
-                <div class="trend-row">
-                    <div class="trend-icon" style="background: rgba(34,197,94,0.15);">${ICONS.joint.replace('stroke-width="2"', 'stroke="#22c55e" stroke-width="2" width="18" height="18"')}</div>
-                    <div class="trend-info">
-                        <div class="trend-name">Joints</div>
-                        <div class="trend-detail">Ø ${jointThis.toFixed(1)} /Tag (vorher: ${jointLast !== null ? jointLast.toFixed(1) : '–'})</div>
-                    </div>
-                    ${trendBadge(jointThis, jointLast, true)}
-                </div>` : ''}
-                <div class="trend-row">
-                    <div class="trend-icon" style="background: rgba(139,92,246,0.15);">${ICONS.chart.replace('stroke-width="2"', 'stroke="#a78bfa" stroke-width="2" width="18" height="18"')}</div>
-                    <div class="trend-info">
-                        <div class="trend-name">Tages-Wins</div>
-                        <div class="trend-detail">Ø ${avgThis.toFixed(1)} / ${CATEGORIES.length} pro Tag</div>
-                    </div>
-                    ${trendBadge(avgThis, avgLast)}
-                </div>
-            </div>
+        // ============ RENDER ============
+        function renderCategory(cat) {
+            const t = state.data[today()] || {};
+            const isDone = t[cat.id]?.done;
+            const streak = getStreak(cat.id);
+            const styleVars = `--cat-color: ${cat.color}; --cat-bg: ${cat.color}15; --cat-border: ${cat.color}40; --cat-icon-bg: ${cat.color}20; --cat-light-bg: ${cat.color}25;`;
 
-            ${topStreaks.length > 0 ? `
-            <div class="stats-card">
-                <h3>Beste Streaks 🏆</h3>
-                ${topStreaks.map(({ cat, current, best }) => `
-                    <div class="trend-row">
-                        <div class="trend-icon" style="background: ${cat.color}20;">${ICONS[cat.icon].replace('stroke-width="2"', `stroke="${cat.color}" stroke-width="2" width="18" height="18"`)}</div>
-                        <div class="trend-info">
-                            <div class="trend-name">${cat.name}</div>
-                            <div class="trend-detail">Aktuell: ${current} Tag${current !== 1 ? 'e' : ''}</div>
+            // SPORT
+            if (cat.id === 'sport') {
+                const timerInProgress = state.timerActive || (state.timerSeconds < state.timerInitial && state.timerSeconds > 0);
+                return `
+                    <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
+                        <div class="complex-header">
+                            <div class="cat-icon">${ICONS[cat.icon]}</div>
+                            <div class="cat-info">
+                                <div class="cat-name">${cat.name}</div>
+                                <div class="cat-goal">${isDone ? '✓ Erledigt!' : 'Timer wählen & los!'}</div>
+                            </div>
+                            ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
                         </div>
-                        <span class="trend-badge up">Best: ${best} 🔥</span>
-                    </div>`).join('')}
-            </div>` : ''}
-        </div>`;
-}
-
-// ============ RENDER – EINSTELLUNGEN ============
-function renderSettingsView() {
-    const daysUsed = Object.keys(state.data).length;
-    const allDates = Object.keys(state.data).sort();
-    const firstDate = allDates.length ? new Date(allDates[0]).toLocaleDateString('de-DE', { day:'numeric', month:'long', year:'numeric' }) : '–';
-
-    return `
-        <div class="content">
-            <div class="settings-card">
-                <h3>Daten sichern & laden</h3>
-                <p style="font-size:13px;color:#9ca3af;margin:0 0 16px 0;">
-                    Deine Daten werden lokal im Browser gespeichert. Exportiere sie regelmäßig als Backup – besonders bevor du den Browser-Cache leerst!
-                </p>
-                <button class="settings-btn export" onclick="exportData()">
-                    ${ICONS.download.replace('stroke-width="2"', 'stroke="currentColor" stroke-width="2" width="18" height="18"')}
-                    Daten exportieren (JSON)
-                </button>
-                <button class="settings-btn import" onclick="triggerImport()">
-                    ${ICONS.upload.replace('stroke-width="2"', 'stroke="currentColor" stroke-width="2" width="18" height="18"')}
-                    Backup importieren
-                </button>
-                <div class="settings-info">
-                    ${daysUsed} Einträge gespeichert seit ${firstDate}
-                </div>
-            </div>
-            <div class="settings-card">
-                <h3>Auf neuem Gerät einrichten</h3>
-                <p style="font-size:13px;color:#9ca3af;margin:0 0 12px 0;">
-                    So überträgst du deine Daten auf ein anderes Gerät oder Browser:
-                </p>
-                <ol style="font-size:13px;color:#c4b5fd;margin:0;padding-left:20px;line-height:2;">
-                    <li>Auf diesem Gerät: <strong style="color:#fff">Exportieren</strong> tippen → JSON-Datei speichern</li>
-                    <li>Die Datei per Messenger/Mail ans neue Gerät schicken</li>
-                    <li>Auf dem neuen Gerät: diese Seite öffnen → <strong style="color:#fff">Importieren</strong></li>
-                </ol>
-            </div>
-            <div class="settings-card">
-                <h3>Gefahrenzone</h3>
-                <button class="settings-btn danger" onclick="clearAllData()">
-                    ${ICONS.trash.replace('stroke-width="2"', 'stroke="currentColor" stroke-width="2" width="18" height="18"')}
-                    Alle Daten löschen
-                </button>
-                <div class="settings-info" style="color:#ef4444;">
-                    Nicht rückgängig machbar! Bitte zuerst exportieren.
-                </div>
-            </div>
-        </div>`;
-}
-
-// ============ MODALS ============
-function renderMathModal() {
-    if (!state.showMath || !state.currentProblem) return '';
-    const p = state.currentProblem;
-    const t = state.data[today()] || {};
-    const solved = t.mathe?.solved || 0;
-    const opSymbol = p.op === '*' ? '×' : p.op;
-    return `
-        <div class="modal-overlay show" onclick="if(event.target===this)closeMath()">
-            <div class="modal">
-                <div class="modal-header">
-                    <div>
-                        <div style="font-size: 12px; color: #9ca3af;">Level ${state.mathLevel}</div>
-                        <div style="font-size: 14px; font-weight: 600;">Gelöst: ${solved}</div>
+                        ${timerInProgress ? `
+                            <div class="timer-display" id="timer-display">${formatTime(state.timerSeconds)}</div>
+                            <div class="timer-progress-bg">
+                                <div class="timer-progress" id="timer-fill" style="width: ${((state.timerInitial - state.timerSeconds) / state.timerInitial) * 100}%; background: ${cat.color};"></div>
+                            </div>
+                            <div class="btn-row">
+                                <button class="btn btn-primary" onclick="toggleTimer()">
+                                    ${state.timerActive ? ICONS.pause + ' Pause' : ICONS.play + ' Weiter'}
+                                </button>
+                                <button class="btn btn-secondary" onclick="resetTimer()">${ICONS.reset}</button>
+                            </div>
+                        ` : `
+                            <div class="btn-row">
+                                <button class="btn btn-tertiary" onclick="startTimer(15)">15 Min</button>
+                                <button class="btn btn-tertiary" onclick="startTimer(30)">30 Min</button>
+                                <button class="btn btn-tertiary" onclick="startTimer(45)">45 Min</button>
+                            </div>
+                        `}
                     </div>
-                    <button class="modal-close" onclick="closeMath()">${ICONS.x}</button>
-                </div>
-                <div class="math-problem ${state.mathFeedback || ''}">${p.a} ${opSymbol} ${p.b} = ?</div>
-                <input type="number" inputmode="numeric" pattern="[0-9]*" id="math-input" class="math-input" placeholder="Deine Antwort" />
-                ${state.mathFeedback === 'correct' ? '<div class="math-feedback correct">✓ Richtig! 🎉</div>' : ''}
-                ${state.mathFeedback === 'wrong' ? `<div class="math-feedback wrong">✗ Falsch – Antwort war: ${p.answer}</div>` : ''}
-                <button class="math-submit" onclick="checkMath()">Prüfen</button>
-            </div>
-        </div>`;
-}
+                `;
+            }
 
-function renderInventoryModal() {
-    if (!state.showInventory) return '';
-    const missing = state.inventory.filter(i => !i.has);
-    return `
-        <div class="modal-overlay bottom show" onclick="if(event.target===this)closeInventory()">
-            <div class="modal-bottom">
-                <div class="modal-header">
-                    <h3>🏠 Was haben wir noch?</h3>
-                    <button class="modal-close" onclick="closeInventory()">${ICONS.x}</button>
-                </div>
-                <p style="font-size: 13px; color: #9ca3af; margin: 0 0 16px 0;">Hak ab was du noch hast. Was nicht angehakt ist → einkaufen!</p>
-                <div>
-                    ${state.inventory.map(item => `
-                        <div class="inv-item ${item.has ? 'has' : 'missing'}">
-                            <button class="inv-check ${item.has ? 'has' : ''}" onclick="toggleInventoryItem('${item.id}')">${ICONS.check}</button>
-                            <span class="inv-name ${item.has ? '' : 'missing'}">${item.name}</span>
-                            <button class="inv-remove" onclick="removeInventoryItem('${item.id}')">${ICONS.x}</button>
-                        </div>`).join('')}
-                </div>
-                <div class="inv-add">
-                    <input type="text" id="new-item-input" placeholder="Neues Item hinzufügen..." onkeydown="if(event.key==='Enter')addInventoryItem()" />
-                    <button onclick="addInventoryItem()">${ICONS.plus}</button>
-                </div>
-                ${missing.length > 0 ? `
-                    <div class="shopping-list">
-                        <div class="shopping-title">📝 Einkaufsliste (${missing.length})</div>
-                        <div class="shopping-items">${missing.map(i => i.name).join(', ')}</div>
-                    </div>` : ''}
-            </div>
-        </div>`;
-}
+            // WASSER
+            if (cat.id === 'wasser') {
+                const ml = t.wasser?.ml || 0;
+                const liters = (ml / 1000).toFixed(1);
+                const percent = Math.min((ml / 2000) * 100, 100);
+                return `
+                    <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
+                        <div class="complex-header">
+                            <div class="cat-icon">${ICONS[cat.icon]}</div>
+                            <div class="cat-info">
+                                <div class="cat-name">${cat.name}</div>
+                                <div class="cat-goal">${liters} L / 2.0 L</div>
+                            </div>
+                            ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
+                        </div>
+                        <div class="water-bottle">
+                            <div class="water-fill" style="height: ${percent}%; background: linear-gradient(180deg, ${cat.color}aa, ${cat.color});"></div>
+                            <div class="water-text">${Math.round(percent)}%</div>
+                        </div>
+                        <div class="water-btns">
+                            <button class="water-btn" onclick="updateWater(${ml + 250})">+ 0.25L</button>
+                            <button class="water-btn" onclick="updateWater(${ml + 500})">+ 0.5L</button>
+                            <button class="water-btn" onclick="updateWater(${ml + 1000})">+ 1L</button>
+                            <button class="water-btn reset" onclick="updateWater(0)">${ICONS.reset}</button>
+                        </div>
+                    </div>
+                `;
+            }
 
-function renderDayDetailModal() {
-    if (!state.selectedDay) return '';
-    const dayData = state.data[state.selectedDay] || {};
-    const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
-    const dateStr = new Date(state.selectedDay).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+            // ============ RAUCHEN: NEU mit 2 Countern + Status ============
+            if (cat.id === 'rauchen') {
+                const cigs = t.rauchen?.cigarettes || 0;
+                const joints = t.rauchen?.joints || 0;
+                const isClean = cigs === 0 && joints === 0;
+                
+                return `
+                    <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
+                        <div class="complex-header">
+                            <div class="cat-icon">${ICONS[cat.icon]}</div>
+                            <div class="cat-info">
+                                <div class="cat-name">${cat.name}</div>
+                                <div class="cat-goal">${isClean ? '🎉 Clean Day = Win!' : 'Ziel: 0 = bester Tag'}</div>
+                            </div>
+                            ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
+                        </div>
+                        
+                        <div class="smoke-status ${isClean ? 'clean' : 'tracked'}">
+                            ${isClean ? '✓ Heute clean geblieben – stark!' : `Heute: ${cigs} Zig. + ${joints} Joint${joints !== 1 ? 's' : ''}`}
+                        </div>
+                        
+                        <div class="smoke-row">
+                            <span class="smoke-icon">🚬</span>
+                            <span class="smoke-label">Zigaretten</span>
+                            <div class="smoke-controls">
+                                <button class="smoke-btn" onclick="updateCigarettes(${cigs - 1})">${ICONS.minus}</button>
+                                <div class="smoke-num ${cigs === 0 ? 'zero' : ''}">${cigs}</div>
+                                <button class="smoke-btn" onclick="updateCigarettes(${cigs + 1})">${ICONS.plus}</button>
+                            </div>
+                        </div>
+                        
+                        <div class="smoke-row">
+                            <span class="smoke-icon">🌿</span>
+                            <span class="smoke-label">Joints</span>
+                            <div class="smoke-controls">
+                                <button class="smoke-btn" onclick="updateJoints(${joints - 1})">${ICONS.minus}</button>
+                                <div class="smoke-num ${joints === 0 ? 'zero' : ''}">${joints}</div>
+                                <button class="smoke-btn" onclick="updateJoints(${joints + 1})">${ICONS.plus}</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
 
-    return `
-        <div class="modal-overlay show" onclick="if(event.target===this)closeDayDetail()">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3 style="text-transform: capitalize;">${dateStr}</h3>
-                    <button class="modal-close" onclick="closeDayDetail()">${ICONS.x}</button>
-                </div>
-                <div class="day-summary">
-                    <div class="day-summary-num">${completed}/${CATEGORIES.length}</div>
-                    <div class="day-summary-label">Wins an diesem Tag</div>
-                </div>
-                <div style="margin-bottom: 16px;">
-                    ${CATEGORIES.map(cat => {
-                        const done = dayData[cat.id]?.done;
-                        let detail = '';
-                        if (cat.id === 'rauchen' && dayData.rauchen?.count !== undefined) detail = ` • ${dayData.rauchen.count} Zigaretten`;
-                        else if (cat.id === 'joints' && dayData.joints?.count !== undefined) detail = ` • ${dayData.joints.count} Joints`;
-                        else if (cat.id === 'wasser' && dayData.wasser?.ml !== undefined) detail = ` • ${(dayData.wasser.ml/1000).toFixed(1)} L`;
-                        else if (cat.id === 'sport' && dayData.sport?.minutes) detail = ` • ${dayData.sport.minutes} Min`;
-                        else if (cat.id === 'mathe' && dayData.mathe?.solved) detail = ` • ${dayData.mathe.solved} gelöst`;
-                        const bgStyle = done ? `background: ${cat.color}15; border-color: ${cat.color}30;` : '';
-                        const iconColor = done ? cat.color : '#6b7280';
-                        return `
-                            <div class="day-cat" style="${bgStyle}">
-                                <span style="color: ${iconColor};">${ICONS[cat.icon].replace('stroke-width="2"', `stroke="${iconColor}" stroke-width="2"`)}</span>
-                                <span class="day-cat-name" style="color: ${done ? '#fff' : '#9ca3af'};">${cat.name}${detail}</span>
-                                ${done ? `<span style="color: ${cat.color};">${ICONS.check.replace('stroke="#fff"', `stroke="${cat.color}"`)}</span>` : '<span style="font-size: 11px; color: #6b7280;">—</span>'}
-                            </div>`;
-                    }).join('')}
-                </div>
-                ${dayData.journal ? `
-                    <div class="day-journal">
-                        <div class="day-journal-header">${ICONS.book} Journal</div>
-                        <p>${dayData.journal.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
-                    </div>` : ''}
-                ${!dayData.journal && completed === 0 ? '<p style="text-align: center; color: #6b7280; font-size: 13px; margin: 20px 0;">Keine Einträge an diesem Tag</p>' : ''}
-            </div>
-        </div>`;
-}
+            // MATH
+            if (cat.id === 'mathe') {
+                const solved = t.mathe?.solved || 0;
+                return `
+                    <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
+                        <div class="complex-header">
+                            <div class="cat-icon">${ICONS[cat.icon]}</div>
+                            <div class="cat-info">
+                                <div class="cat-name">${cat.name}</div>
+                                <div class="cat-goal">${solved} gelöst heute • Ziel: 5</div>
+                            </div>
+                            ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-tertiary" onclick="startMath(1)">Easy</button>
+                            <button class="btn btn-tertiary" onclick="startMath(2)">Medium</button>
+                            <button class="btn btn-tertiary" onclick="startMath(3)">Hard</button>
+                        </div>
+                    </div>
+                `;
+            }
 
-// ============ MAIN RENDER ============
-function render() {
-    const dateStr = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+            // INVENTORY
+            if (cat.id === 'vorrat') {
+                const missing = state.inventory.filter(i => !i.has).length;
+                const total = state.inventory.length;
+                let statusText = '';
+                let statusColor = '#9ca3af';
+                if (total === 0) {
+                    statusText = '+ Liste anlegen';
+                    statusColor = '#a78bfa';
+                } else if (missing > 0) {
+                    statusText = `⚠️ ${missing} Sachen fehlen!`;
+                    statusColor = '#ef4444';
+                } else {
+                    statusText = '✓ Alles da';
+                }
+                return `
+                    <button class="category ${isDone ? 'done' : ''}" style="${styleVars}" onclick="openInventory()">
+                        <div class="cat-icon">${ICONS[cat.icon]}</div>
+                        <div class="cat-info">
+                            <div class="cat-name">${cat.name}</div>
+                            <div class="cat-goal" style="color: ${statusColor};">${statusText}</div>
+                        </div>
+                        ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
+                        ${ICONS.chevronRight}
+                    </button>
+                `;
+            }
 
-    const html = `
-        <div class="header">
-            <div class="header-row">
-                <div>
-                    <h1>Daily Wins</h1>
-                    <p class="date">${dateStr}</p>
-                </div>
-                <div class="trophy">${ICONS.trophy}<span>${totalScore()}</span></div>
-            </div>
-            <p class="quote">${state.quote}</p>
-        </div>
-        <div class="tabs">
-            <button class="tab ${state.view === 'today' ? 'active' : ''}" onclick="setView('today')">${ICONS.check} Heute</button>
-            <button class="tab ${state.view === 'week' ? 'active' : ''}" onclick="setView('week')">${ICONS.chart} Woche</button>
-            <button class="tab ${state.view === 'calendar' ? 'active' : ''}" onclick="setView('calendar')">${ICONS.calendar} Kalender</button>
-            <button class="tab ${state.view === 'journal' ? 'active' : ''}" onclick="setView('journal')">${ICONS.book} Journal</button>
-            <button class="tab ${state.view === 'progress' ? 'active' : ''}" onclick="setView('progress')">${ICONS.trending} Fortschritt</button>
-            <button class="tab ${state.view === 'settings' ? 'active' : ''}" onclick="setView('settings')">${ICONS.settings} Backup</button>
-        </div>
-        ${state.view === 'today' ? renderTodayView() : ''}
-        ${state.view === 'week' ? renderWeekView() : ''}
-        ${state.view === 'calendar' ? renderCalendarView() : ''}
-        ${state.view === 'journal' ? renderJournalView() : ''}
-        ${state.view === 'progress' ? renderProgressView() : ''}
-        ${state.view === 'settings' ? renderSettingsView() : ''}
-        ${renderMathModal()}
-        ${renderInventoryModal()}
-        ${renderDayDetailModal()}
-    `;
-
-    document.getElementById('app').innerHTML = html;
-
-    if (state.showMath) {
-        setTimeout(() => {
-            const inp = document.getElementById('math-input');
-            if (inp) { inp.focus(); inp.onkeydown = (e) => { if (e.key === 'Enter') checkMath(); }; }
-        }, 50);
-    }
-}
-
-// ============ INIT ============
-loadState();
-render();
-
-if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
-    setTimeout(() => {
-        const banner = document.getElementById('install-banner');
-        if (banner && !localStorage.getItem('installHintDismissed')) {
-            banner.classList.add('show');
+            // STANDARD CHECK
+            return `
+                <button class="category ${isDone ? 'done' : ''}" style="${styleVars}" onclick="toggleCheck('${cat.id}')">
+                    <div class="cat-icon">${ICONS[cat.icon]}</div>
+                    <div class="cat-info">
+                        <div class="cat-name">${cat.name}</div>
+                        <div class="cat-goal">${cat.goal}</div>
+                    </div>
+                    ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
+                    <div class="cat-check ${isDone ? 'done' : ''}">${ICONS.check}</div>
+                </button>
+            `;
         }
-    }, 3000);
-}
-</script>
+
+        function renderTodayView() {
+            const completed = completedToday();
+            return `
+                <div class="content">
+                    <div class="progress-card">
+                        <div class="progress-num">${completed}<span>/8</span></div>
+                        <div class="progress-label">Wins heute • ${Math.round((completed/8)*100)}% geschafft</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${(completed/8)*100}%;"></div>
+                        </div>
+                    </div>
+                    <div class="category-list">
+                        ${CATEGORIES.map(renderCategory).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWeekView() {
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayData = state.data[dateStr] || {};
+                const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
+                days.push({
+                    label: date.toLocaleDateString('de-DE', { weekday: 'short' }),
+                    completed,
+                });
+            }
+            return `
+                <div class="content">
+                    <div class="week-card">
+                        <h3>Letzte 7 Tage</h3>
+                        <div class="week-grid">
+                            ${days.map(d => {
+                                const opacity = 0.15 + (d.completed/8) * 0.85;
+                                return `
+                                    <div class="week-day">
+                                        <div class="week-bar" style="background: rgba(139, 92, 246, ${opacity});">${d.completed}</div>
+                                        <div class="week-label">${d.label}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="streaks-card">
+                        <h3>Aktuelle Streaks 🔥</h3>
+                        ${CATEGORIES.map(cat => {
+                            const streak = getStreak(cat.id);
+                            const bg = streak > 0 ? `${cat.color}10` : 'transparent';
+                            return `
+                                <div class="streak-row" style="background: ${bg};">
+                                    <span style="color: ${cat.color}; display: inline-flex;">${ICONS[cat.icon].replace('stroke-width="2"', `stroke="${cat.color}" stroke-width="2"`)}</span>
+                                    <span class="streak-name">${cat.name}</span>
+                                    <span class="streak-num" style="color: ${streak > 0 ? '#f59e0b' : '#6b7280'};">${streak} ${streak === 1 ? 'Tag' : 'Tage'}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCalendarView() {
+            const year = state.calendarMonth.getFullYear();
+            const month = state.calendarMonth.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startWeekday = (firstDay.getDay() + 6) % 7;
+            const daysInMonth = lastDay.getDate();
+            const monthName = state.calendarMonth.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+            
+            let cells = [];
+            for (let i = 0; i < startWeekday; i++) cells.push('<div></div>');
+            for (let d = 1; d <= daysInMonth; d++) {
+                const date = new Date(year, month, d);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayData = state.data[dateStr] || {};
+                const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
+                const intensity = completed / 8;
+                const opacity = completed > 0 ? 0.2 + intensity * 0.7 : 0.05;
+                const isToday = dateStr === today();
+                cells.push(`
+                    <button class="cal-day ${isToday ? 'today' : ''}" 
+                            style="background: rgba(139, 92, 246, ${opacity});"
+                            onclick="selectDay('${dateStr}')">
+                        <div>${d}</div>
+                        ${completed > 0 ? `<div class="cal-day-count">${completed}/8</div>` : ''}
+                    </button>
+                `);
+            }
+            return `
+                <div class="content">
+                    <div class="calendar-card">
+                        <div class="cal-nav">
+                            <button onclick="changeMonth(-1)">${ICONS.chevronLeft}</button>
+                            <h3>${monthName}</h3>
+                            <button onclick="changeMonth(1)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                        </div>
+                        <div class="cal-weekdays">
+                            ${['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => `<div class="cal-weekday">${d}</div>`).join('')}
+                        </div>
+                        <div class="cal-grid">${cells.join('')}</div>
+                        <div class="cal-legend">
+                            <span>Wenig</span>
+                            ${[0.05, 0.3, 0.5, 0.7, 0.9].map(o => `<div class="cal-legend-box" style="background: rgba(139, 92, 246, ${o});"></div>`).join('')}
+                            <span>Viel</span>
+                        </div>
+                        <p class="cal-tip">Tipp: Tag antippen für Details & Journal</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderJournalView() {
+            const entry = state.data[today()]?.journal || '';
+            return `
+                <div class="content">
+                    <div class="journal-card">
+                        <h3>Journal heute</h3>
+                        <p style="font-size: 13px; color: #9ca3af; margin: 0 0 16px 0;">
+                            Was hat dir heute geholfen? Was war schwer?
+                        </p>
+                        <textarea id="journal-textarea" placeholder="Heute war..." 
+                                  oninput="updateJournal(this.value)">${entry}</textarea>
+                        <p style="font-size: 11px; color: #6b7280; margin-top: 8px; text-align: right;">
+                            ${entry.length} Zeichen • automatisch gespeichert
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMathModal() {
+            if (!state.showMath || !state.currentProblem) return '';
+            const p = state.currentProblem;
+            const t = state.data[today()] || {};
+            const solved = t.mathe?.solved || 0;
+            const opSymbol = p.op === '*' ? '×' : p.op;
+            return `
+                <div class="modal-overlay show" onclick="if(event.target===this)closeMath()">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div>
+                                <div style="font-size: 12px; color: #9ca3af;">Level ${state.mathLevel}</div>
+                                <div style="font-size: 14px; font-weight: 600;">Gelöst: ${solved}</div>
+                            </div>
+                            <button class="modal-close" onclick="closeMath()">${ICONS.x}</button>
+                        </div>
+                        <div class="math-problem ${state.mathFeedback || ''}">
+                            ${p.a} ${opSymbol} ${p.b} = ?
+                        </div>
+                        <input type="number" inputmode="numeric" pattern="[0-9]*" id="math-input" class="math-input" placeholder="Deine Antwort" />
+                        ${state.mathFeedback === 'correct' ? '<div class="math-feedback correct">✓ Richtig! 🎉</div>' : ''}
+                        ${state.mathFeedback === 'wrong' ? `<div class="math-feedback wrong">✗ Falsch – Antwort war: ${p.answer}</div>` : ''}
+                        <button class="math-submit" onclick="checkMath()">Prüfen</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderInventoryModal() {
+            if (!state.showInventory) return '';
+            const missing = state.inventory.filter(i => !i.has);
+            const isEmpty = state.inventory.length === 0;
+            return `
+                <div class="modal-overlay bottom show" onclick="if(event.target===this)closeInventory()">
+                    <div class="modal-bottom">
+                        <div class="modal-header">
+                            <h3>🏠 Was haben wir noch?</h3>
+                            <button class="modal-close" onclick="closeInventory()">${ICONS.x}</button>
+                        </div>
+                        <p style="font-size: 13px; color: #9ca3af; margin: 0 0 16px 0;">
+                            ${isEmpty 
+                                ? 'Erstelle deine eigene Liste – nur was DU wirklich brauchst.' 
+                                : 'Hak ab was du noch hast. Was nicht angehakt ist → einkaufen!'}
+                        </p>
+                        ${isEmpty ? `
+                            <div class="inv-empty">
+                                <strong>Noch keine Items 📋</strong>
+                                Tipp unten was rein das du regelmäßig brauchst:<br>
+                                z.B. "Klopapier", "Kaffee", "Eier"...
+                            </div>
+                        ` : `
+                            <div>
+                                ${state.inventory.map(item => `
+                                    <div class="inv-item ${item.has ? 'has' : 'missing'}">
+                                        <button class="inv-check ${item.has ? 'has' : ''}" onclick="toggleInventoryItem('${item.id}')">
+                                            ${ICONS.check}
+                                        </button>
+                                        <span class="inv-name ${item.has ? '' : 'missing'}">${item.name}</span>
+                                        <button class="inv-remove" onclick="removeInventoryItem('${item.id}')" title="Löschen">${ICONS.x}</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `}
+                        <div class="inv-add">
+                            <input type="text" id="new-item-input" placeholder="Item hinzufügen..." onkeydown="if(event.key==='Enter')addInventoryItem()" />
+                            <button onclick="addInventoryItem()">${ICONS.plus}</button>
+                        </div>
+                        ${missing.length > 0 ? `
+                            <div class="shopping-list">
+                                <div class="shopping-title">📝 Einkaufsliste (${missing.length})</div>
+                                <div class="shopping-items">${missing.map(i => i.name).join(', ')}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDayDetailModal() {
+            if (!state.selectedDay) return '';
+            const dayData = state.data[state.selectedDay] || {};
+            const completed = CATEGORIES.filter(c => dayData[c.id]?.done).length;
+            const dateStr = new Date(state.selectedDay).toLocaleDateString('de-DE', { 
+                weekday: 'long', day: 'numeric', month: 'long' 
+            });
+            return `
+                <div class="modal-overlay show" onclick="if(event.target===this)closeDayDetail()">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h3 style="text-transform: capitalize;">${dateStr}</h3>
+                            <button class="modal-close" onclick="closeDayDetail()">${ICONS.x}</button>
+                        </div>
+                        <div class="day-summary">
+                            <div class="day-summary-num">${completed}/8</div>
+                            <div class="day-summary-label">Wins an diesem Tag</div>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            ${CATEGORIES.map(cat => {
+                                const done = dayData[cat.id]?.done;
+                                let detail = '';
+                                if (cat.id === 'rauchen' && dayData.rauchen) {
+                                    const c = dayData.rauchen.cigarettes ?? dayData.rauchen.count ?? 0;
+                                    const j = dayData.rauchen.joints ?? 0;
+                                    if (c === 0 && j === 0) detail = ' • clean ✨';
+                                    else detail = ` • ${c} Zig + ${j} Joint${j !== 1 ? 's' : ''}`;
+                                }
+                                else if (cat.id === 'wasser' && dayData.wasser?.ml !== undefined) detail = ` • ${(dayData.wasser.ml/1000).toFixed(1)} L`;
+                                else if (cat.id === 'sport' && dayData.sport?.minutes) detail = ` • ${dayData.sport.minutes} Min`;
+                                else if (cat.id === 'mathe' && dayData.mathe?.solved) detail = ` • ${dayData.mathe.solved} gelöst`;
+                                
+                                const bgStyle = done ? `background: ${cat.color}15; border-color: ${cat.color}30;` : '';
+                                const iconColor = done ? cat.color : '#6b7280';
+                                return `
+                                    <div class="day-cat" style="${bgStyle}">
+                                        <span style="color: ${iconColor};">${ICONS[cat.icon].replace('stroke-width="2"', `stroke="${iconColor}" stroke-width="2"`)}</span>
+                                        <span class="day-cat-name" style="color: ${done ? '#fff' : '#9ca3af'};">${cat.name}${detail}</span>
+                                        ${done ? `<span style="color: ${cat.color};">${ICONS.check.replace('stroke="#fff"', `stroke="${cat.color}"`)}</span>` : '<span style="font-size: 11px; color: #6b7280;">—</span>'}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        ${dayData.journal ? `
+                            <div class="day-journal">
+                                <div class="day-journal-header">${ICONS.book} Journal</div>
+                                <p>${dayData.journal.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+                            </div>
+                        ` : ''}
+                        ${!dayData.journal && completed === 0 ? '<p style="text-align: center; color: #6b7280; font-size: 13px; margin: 20px 0;">Keine Einträge an diesem Tag</p>' : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const dateStr = new Date().toLocaleDateString('de-DE', { 
+                weekday: 'long', day: 'numeric', month: 'long' 
+            });
+            const html = `
+                <div class="header">
+                    <div class="header-row">
+                        <div>
+                            <h1>Daily Wins</h1>
+                            <p class="date">${dateStr}</p>
+                        </div>
+                        <div class="trophy">
+                            ${ICONS.trophy}
+                            <span>${totalScore()}</span>
+                        </div>
+                    </div>
+                    <p class="quote">${state.quote}</p>
+                </div>
+                <div class="tabs">
+                    <button class="tab ${state.view === 'today' ? 'active' : ''}" onclick="setView('today')">${ICONS.check} Heute</button>
+                    <button class="tab ${state.view === 'week' ? 'active' : ''}" onclick="setView('week')">${ICONS.chart} Woche</button>
+                    <button class="tab ${state.view === 'calendar' ? 'active' : ''}" onclick="setView('calendar')">${ICONS.calendar} Kalender</button>
+                    <button class="tab ${state.view === 'journal' ? 'active' : ''}" onclick="setView('journal')">${ICONS.book} Journal</button>
+                </div>
+                ${state.view === 'today' ? renderTodayView() : ''}
+                ${state.view === 'week' ? renderWeekView() : ''}
+                ${state.view === 'calendar' ? renderCalendarView() : ''}
+                ${state.view === 'journal' ? renderJournalView() : ''}
+                ${renderMathModal()}
+                ${renderInventoryModal()}
+                ${renderDayDetailModal()}
+            `;
+            document.getElementById('app').innerHTML = html;
+            
+            if (state.showMath) {
+                setTimeout(() => {
+                    const inp = document.getElementById('math-input');
+                    if (inp) {
+                        inp.focus();
+                        inp.onkeydown = (e) => { if (e.key === 'Enter') checkMath(); };
+                    }
+                }, 50);
+            }
+        }
+
+        // ============ INIT ============
+        loadState();
+        render();
+        
+        if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+            setTimeout(() => {
+                const banner = document.getElementById('install-banner');
+                if (banner && !localStorage.getItem('installHintDismissed')) {
+                    banner.classList.add('show');
+                }
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
