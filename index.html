@@ -47,7 +47,47 @@
             display: flex; align-items: center; gap: 6px; border: 1px solid rgba(139, 92, 246, 0.3);
             font-weight: 700; font-size: 14px;
         }
+        .header-actions { display: flex; align-items: center; gap: 8px; }
+        .settings-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 9px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .settings-btn svg { width: 18px; height: 18px; stroke: #c4b5fd; fill: none; stroke-width: 2; }
         .quote { font-size: 14px; color: #c4b5fd; font-style: italic; margin: 0; }
+        
+        .settings-section {
+            background: rgba(255,255,255,0.03); border-radius: 14px;
+            padding: 16px; margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .settings-section h4 {
+            margin: 0 0 6px 0; font-size: 14px; font-weight: 700; color: #fff;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .settings-section p {
+            margin: 0 0 12px 0; font-size: 12px; color: #9ca3af; line-height: 1.4;
+        }
+        .settings-btn-row { display: flex; gap: 8px; }
+        .settings-action {
+            flex: 1; padding: 12px; border-radius: 10px; border: none;
+            font-weight: 600; font-size: 13px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .settings-action.primary { background: #8b5cf6; color: #fff; }
+        .settings-action.danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .settings-action svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .settings-stats {
+            background: rgba(139, 92, 246, 0.08); border-radius: 10px;
+            padding: 10px 12px; font-size: 12px; color: #c4b5fd; margin-bottom: 12px;
+        }
+        .import-textarea {
+            width: 100%; min-height: 100px; padding: 10px;
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4); color: #fff; font-size: 11px;
+            font-family: monospace; resize: vertical; outline: none;
+            margin-bottom: 8px;
+        }
         
         .tabs { display: flex; gap: 6px; padding: 14px 20px; background: rgba(0,0,0,0.2); overflow-x: auto; }
         .tab {
@@ -91,6 +131,9 @@
             color: #fff; font-family: inherit;
         }
         .category.done { background: var(--cat-bg); border-color: var(--cat-border); }
+        .category > svg {
+            width: 20px; height: 20px; flex-shrink: 0;
+        }
         .cat-icon {
             width: 40px; height: 40px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -423,6 +466,10 @@
             chevronLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
             chevronRight: '<svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
             x: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+            settings: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+            download: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+            upload: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+            trash: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
         };
 
         // ============ CATEGORIES ============
@@ -464,6 +511,9 @@
             selectedDay: null,
             showMath: false,
             showInventory: false,
+            showSettings: false,
+            showImport: false,
+            importText: '',
         };
 
         const today = () => new Date().toISOString().split('T')[0];
@@ -755,6 +805,167 @@
 
         function openInventory() { state.showInventory = true; render(); }
         function closeInventory() { state.showInventory = false; render(); }
+
+        // ============ SETTINGS / EXPORT / IMPORT ============
+        function openSettings() { state.showSettings = true; render(); }
+        function closeSettings() {
+            state.showSettings = false;
+            state.showImport = false;
+            state.importText = '';
+            render();
+        }
+        function openImport() {
+            state.showImport = true;
+            state.importText = '';
+            render();
+        }
+        function closeImport() {
+            state.showImport = false;
+            state.importText = '';
+            render();
+        }
+
+        function exportData() {
+            const exportObj = {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                data: state.data,
+                inventory: state.inventory,
+            };
+            const json = JSON.stringify(exportObj, null, 2);
+            const dateStr = new Date().toISOString().split('T')[0];
+            const filename = `daily-wins-backup-${dateStr}.json`;
+            
+            try {
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } catch (e) {
+                // Fallback: in Zwischenablage kopieren
+                try {
+                    navigator.clipboard.writeText(json);
+                    alert('💾 Backup wurde in die Zwischenablage kopiert!\nFüg es in eine Notiz oder E-Mail ein.');
+                } catch (e2) {
+                    alert('Export fehlgeschlagen. Bitte manuell kopieren.');
+                }
+            }
+        }
+
+        function copyExportToClipboard() {
+            const exportObj = {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                data: state.data,
+                inventory: state.inventory,
+            };
+            const json = JSON.stringify(exportObj);
+            navigator.clipboard.writeText(json).then(() => {
+                alert('✅ Backup in Zwischenablage kopiert!\nFüg es in eine Notiz oder schick es dir per Mail.');
+            }).catch(() => {
+                alert('❌ Kopieren fehlgeschlagen. Bitte manuell auswählen.');
+            });
+        }
+
+        function importFromFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const text = e.target.result;
+                    applyImport(text);
+                } catch (err) {
+                    alert('❌ Datei konnte nicht gelesen werden.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function applyImport(jsonText) {
+            try {
+                const parsed = JSON.parse(jsonText);
+                
+                // Validierung
+                if (!parsed || typeof parsed !== 'object') {
+                    alert('❌ Ungültiges Format');
+                    return;
+                }
+                
+                const importedData = parsed.data || parsed; // auch direkte data-Objekte erlauben
+                const importedInventory = parsed.inventory || null;
+                
+                if (typeof importedData !== 'object') {
+                    alert('❌ Keine gültigen Daten gefunden.');
+                    return;
+                }
+                
+                const numDays = Object.keys(importedData).length;
+                const numInv = importedInventory ? importedInventory.length : 0;
+                
+                if (!confirm(`Backup importieren?\n\n📅 ${numDays} Tage mit Wins\n📦 ${numInv} Haushalt-Items\n\n⚠️ Deine aktuellen Daten werden ersetzt!`)) {
+                    return;
+                }
+                
+                state.data = importedData;
+                if (importedInventory) state.inventory = importedInventory;
+                
+                // Migration für alte Rauchen-Daten
+                Object.keys(state.data).forEach(date => {
+                    const r = state.data[date].rauchen;
+                    if (r && r.count !== undefined && r.cigarettes === undefined) {
+                        r.cigarettes = r.count;
+                        delete r.count;
+                    }
+                    if (r) {
+                        const cigs = r.cigarettes || 0;
+                        const joints = r.joints || 0;
+                        r.done = (cigs === 0 && joints === 0);
+                    }
+                });
+                
+                saveData();
+                saveInventory();
+                state.showImport = false;
+                state.importText = '';
+                state.showSettings = false;
+                render();
+                
+                alert('✅ Import erfolgreich! Alle Daten wurden wiederhergestellt.');
+            } catch (e) {
+                alert('❌ Ungültiges JSON-Format. Bitte prüfe deine Datei.');
+            }
+        }
+
+        function importFromText() {
+            const textarea = document.getElementById('import-textarea');
+            if (!textarea || !textarea.value.trim()) {
+                alert('Bitte erst Backup-Text einfügen.');
+                return;
+            }
+            applyImport(textarea.value.trim());
+        }
+
+        function clearAllData() {
+            if (!confirm('⚠️ ALLE Daten werden gelöscht!\n\nWirklich fortfahren?\n(Tipp: Mach vorher einen Export!)')) {
+                return;
+            }
+            if (!confirm('Bist du SICHER? Diese Aktion kann nicht rückgängig gemacht werden!')) {
+                return;
+            }
+            state.data = {};
+            state.inventory = [];
+            saveData();
+            saveInventory();
+            state.showSettings = false;
+            render();
+            alert('Alle Daten gelöscht.');
+        }
 
         // ============ CALENDAR ============
         function changeMonth(delta) {
@@ -1159,6 +1370,96 @@
             `;
         }
 
+        function renderSettingsModal() {
+            if (!state.showSettings) return '';
+            
+            const numDays = Object.keys(state.data).length;
+            const wins = totalScore();
+            const numInv = state.inventory.length;
+            
+            if (state.showImport) {
+                return `
+                    <div class="modal-overlay show" onclick="if(event.target===this)closeImport()">
+                        <div class="modal">
+                            <div class="modal-header">
+                                <h3>📥 Backup importieren</h3>
+                                <button class="modal-close" onclick="closeImport()">${ICONS.x}</button>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Aus Datei</h4>
+                                <p>Wähle eine vorher exportierte .json-Datei.</p>
+                                <input type="file" accept=".json,application/json" 
+                                       onchange="importFromFile(event)" 
+                                       style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); color: #fff; font-size: 13px;" />
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h4>Aus Text einfügen</h4>
+                                <p>Falls du den Backup-Text irgendwo gespeichert hast.</p>
+                                <textarea id="import-textarea" class="import-textarea" placeholder='Backup-Text hier einfügen (beginnt mit { "version": ... })'></textarea>
+                                <button class="settings-action primary" onclick="importFromText()">
+                                    ${ICONS.upload} Importieren
+                                </button>
+                            </div>
+                            
+                            <button class="settings-action" style="background: rgba(255,255,255,0.05); color: #9ca3af; width: 100%; margin-top: 8px;" onclick="closeImport()">
+                                Zurück
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="modal-overlay show" onclick="if(event.target===this)closeSettings()">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h3>⚙️ Einstellungen</h3>
+                            <button class="modal-close" onclick="closeSettings()">${ICONS.x}</button>
+                        </div>
+                        
+                        <div class="settings-stats">
+                            📊 ${numDays} Tage getrackt • 🏆 ${wins} Wins gesamt • 📦 ${numInv} Items
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>💾 Backup erstellen</h4>
+                            <p>Sichere alle deine Daten – wichtig wenn du das Handy wechselst oder den Browser-Cache löscht.</p>
+                            <div class="settings-btn-row">
+                                <button class="settings-action primary" onclick="exportData()">
+                                    ${ICONS.download} Als Datei
+                                </button>
+                                <button class="settings-action primary" style="background: #ec4899;" onclick="copyExportToClipboard()">
+                                    📋 Kopieren
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4>📥 Backup wiederherstellen</h4>
+                            <p>Daten aus einem Backup importieren. Achtung: Aktuelle Daten werden ersetzt!</p>
+                            <button class="settings-action primary" style="background: #06b6d4; width: 100%;" onclick="openImport()">
+                                ${ICONS.upload} Import starten
+                            </button>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h4 style="color: #ef4444;">🗑️ Alle Daten löschen</h4>
+                            <p>Achtung: ALLE Wins, Streaks, Journal-Einträge und Listen werden gelöscht. Mach vorher ein Backup!</p>
+                            <button class="settings-action danger" style="width: 100%;" onclick="clearAllData()">
+                                ${ICONS.trash} Alles löschen
+                            </button>
+                        </div>
+                        
+                        <p style="font-size: 11px; color: #6b7280; text-align: center; margin: 12px 0 0 0;">
+                            Tipp: Mach jede Woche ein Backup und schick's dir per Mail 📧
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
         function renderDayDetailModal() {
             if (!state.selectedDay) return '';
             const dayData = state.data[state.selectedDay] || {};
@@ -1225,9 +1526,12 @@
                             <h1>Daily Wins</h1>
                             <p class="date">${dateStr}</p>
                         </div>
-                        <div class="trophy">
-                            ${ICONS.trophy}
-                            <span>${totalScore()}</span>
+                        <div class="header-actions">
+                            <button class="settings-btn" onclick="openSettings()" title="Einstellungen">${ICONS.settings}</button>
+                            <div class="trophy">
+                                ${ICONS.trophy}
+                                <span>${totalScore()}</span>
+                            </div>
                         </div>
                     </div>
                     <p class="quote">${state.quote}</p>
@@ -1244,6 +1548,7 @@
                 ${state.view === 'journal' ? renderJournalView() : ''}
                 ${renderMathModal()}
                 ${renderInventoryModal()}
+                ${renderSettingsModal()}
                 ${renderDayDetailModal()}
             `;
             document.getElementById('app').innerHTML = html;
