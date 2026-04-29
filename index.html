@@ -186,16 +186,89 @@
         .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
         
         .water-bottle {
-            height: 40px; background: rgba(255,255,255,0.05); border-radius: 8px;
+            height: 120px; background: rgba(255,255,255,0.05); border-radius: 12px;
             margin-bottom: 12px; position: relative; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.08);
         }
-        .water-fill { position: absolute; bottom: 0; left: 0; right: 0; transition: height 0.3s ease; }
+        .water-fill {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+            box-shadow: inset 0 4px 12px rgba(255,255,255,0.15);
+            overflow: hidden;
+        }
+        /* Wellen oben auf dem Wasser */
+        .water-wave {
+            position: absolute; left: 0; right: 0; top: 0;
+            height: 12px; width: 200%;
+            background-repeat: repeat-x;
+            background-size: 100px 12px;
+        }
+        .water-wave-1 {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M0,12 Q25,0 50,12 T100,12 T150,12 T200,12 L200,24 L0,24 Z' fill='%2338bdf8'/%3E%3C/svg%3E");
+            animation: wave-move 3s linear infinite;
+            opacity: 0.8;
+        }
+        .water-wave-2 {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M0,12 Q25,4 50,12 T100,12 T150,12 T200,12 L200,24 L0,24 Z' fill='%230ea5e9'/%3E%3C/svg%3E");
+            animation: wave-move-reverse 4s linear infinite;
+            opacity: 0.6;
+            top: 4px;
+        }
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes wave-move-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        /* Aufsteigende Bubbles */
+        .water-bubble {
+            position: absolute; bottom: 0;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: bubble-rise 4s ease-in infinite;
+            pointer-events: none;
+        }
+        @keyframes bubble-rise {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-110px) scale(1.2); opacity: 0; }
+        }
         .water-text {
             position: absolute; inset: 0; display: flex;
+            flex-direction: column;
             align-items: center; justify-content: center;
-            font-size: 14px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            font-weight: 800; z-index: 2; pointer-events: none;
+            color: #fff;
+            text-shadow:
+                0 0 12px rgba(0, 0, 0, 0.7),
+                0 0 4px rgba(0, 0, 0, 0.9),
+                0 2px 6px rgba(0, 0, 0, 0.8);
+            -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.3);
         }
+        .water-text-percent {
+            font-size: 32px; line-height: 1;
+            letter-spacing: -0.5px;
+        }
+        .water-text-amount {
+            font-size: 13px; opacity: 0.95; margin-top: 6px;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 3px 10px;
+            border-radius: 999px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        /* Splash Animation beim Hinzufügen */
+        @keyframes splash {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+        .water-bottle.splash { animation: splash 0.4s ease-out; }
         .water-btns { display: flex; gap: 6px; flex-wrap: wrap; }
         .water-btn {
             flex: 1; padding: 10px; border-radius: 8px; border: none;
@@ -618,6 +691,20 @@
             saveData(); render();
         }
 
+        // Wasser hinzufügen mit Splash-Animation
+        function addWater(ml) {
+            updateWater(ml);
+            // Splash Animation triggern
+            requestAnimationFrame(() => {
+                const bottle = document.getElementById('water-bottle');
+                if (bottle) {
+                    bottle.classList.remove('splash');
+                    void bottle.offsetWidth; // Force reflow
+                    bottle.classList.add('splash');
+                }
+            });
+        }
+
         // ===== RAUCHEN: NEUE LOGIK =====
         // done = TRUE wenn cigarettes === 0 UND joints === 0
         // Beides null = clean Tag = Win!
@@ -1023,26 +1110,45 @@
             // WASSER
             if (cat.id === 'wasser') {
                 const ml = t.wasser?.ml || 0;
-                const liters = (ml / 1000).toFixed(1);
+                const liters = (ml / 1000).toFixed(2);
                 const percent = Math.min((ml / 2000) * 100, 100);
+                // Wellen erst ab 20% damit sie nicht über den Rand rausstehen
+                const showWaves = percent >= 20;
+                const showBubbles = percent >= 25;
+                
                 return `
                     <div class="complex-card ${isDone ? 'done' : ''}" style="${styleVars}">
                         <div class="complex-header">
                             <div class="cat-icon">${ICONS[cat.icon]}</div>
                             <div class="cat-info">
                                 <div class="cat-name">${cat.name}</div>
-                                <div class="cat-goal">${liters} L / 2.0 L</div>
+                                <div class="cat-goal">Ziel: 2.0 L${isDone ? ' ✓' : ''}</div>
                             </div>
                             ${streak > 0 ? `<div class="cat-streak">${ICONS.flame}${streak}</div>` : ''}
                         </div>
-                        <div class="water-bottle">
-                            <div class="water-fill" style="height: ${percent}%; background: linear-gradient(180deg, ${cat.color}aa, ${cat.color});"></div>
-                            <div class="water-text">${Math.round(percent)}%</div>
+                        <div class="water-bottle" id="water-bottle">
+                            <div class="water-fill" style="height: ${percent}%;">
+                                ${showWaves ? `
+                                    <div class="water-wave water-wave-1"></div>
+                                    <div class="water-wave water-wave-2"></div>
+                                ` : ''}
+                                ${showBubbles ? `
+                                    <div class="water-bubble" style="left: 15%; width: 6px; height: 6px; animation-delay: 0s;"></div>
+                                    <div class="water-bubble" style="left: 35%; width: 4px; height: 4px; animation-delay: 1.2s;"></div>
+                                    <div class="water-bubble" style="left: 55%; width: 8px; height: 8px; animation-delay: 0.6s;"></div>
+                                    <div class="water-bubble" style="left: 75%; width: 5px; height: 5px; animation-delay: 2s;"></div>
+                                    <div class="water-bubble" style="left: 90%; width: 4px; height: 4px; animation-delay: 2.8s;"></div>
+                                ` : ''}
+                            </div>
+                            <div class="water-text">
+                                <div class="water-text-percent">${Math.round(percent)}%</div>
+                                <div class="water-text-amount">${liters} L / 2.0 L</div>
+                            </div>
                         </div>
                         <div class="water-btns">
-                            <button class="water-btn" onclick="updateWater(${ml + 250})">+ 0.25L</button>
-                            <button class="water-btn" onclick="updateWater(${ml + 500})">+ 0.5L</button>
-                            <button class="water-btn" onclick="updateWater(${ml + 1000})">+ 1L</button>
+                            <button class="water-btn" onclick="addWater(${ml + 250})">+ 0.25L</button>
+                            <button class="water-btn" onclick="addWater(${ml + 500})">+ 0.5L</button>
+                            <button class="water-btn" onclick="addWater(${ml + 1000})">+ 1L</button>
                             <button class="water-btn reset" onclick="updateWater(0)">${ICONS.reset}</button>
                         </div>
                     </div>
